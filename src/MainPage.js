@@ -1,9 +1,10 @@
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, ImageBackground } from 'react-native';
 
 
 export default function MainPage({ navigation, route }) {
-    const { userID } = route.params;
+    const { userID, userPassword } = route.params;
     return (
+        <ImageBackground source={require('../assets/sky.jpg')} resizeMode="cover" style={{flex: 1}}>
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
             <Text>Main Page</Text> 
             <Text>{userID}님, 안녕하세요!</Text>
@@ -17,5 +18,6 @@ export default function MainPage({ navigation, route }) {
             ></Button>
             <Button title="뒤로 가기" onPress={() => navigation.goBack()} />
         </View>
+        </ImageBackground>
     );
 }
