@@ -7,6 +7,8 @@ import MainPage from './src/MainPage';
 import MyPage from './src/MyPage';
 import AddKeywordsPage from './src/AddKeywordsPage';
 
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Remote debugger']);
 const Stack = createNativeStackNavigator();
 
 export default function App() {
