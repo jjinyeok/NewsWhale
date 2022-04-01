@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { View, Text, Button, TextInput } from 'react-native';
+import { View, Text, Button, TextInput, ImageBackground } from 'react-native';
 
 
 export default function AddKeywordsPage({ navigation }) {
     const [postText, setPostText] = useState('');
 
     return (
-        
+        <ImageBackground source={require('../assets/sky.jpg')} style={{flex: 1}}>
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
             <TextInput
                 multiline
@@ -34,5 +34,6 @@ export default function AddKeywordsPage({ navigation }) {
                 onPress={() => navigation.popToTop()}
             />
         </View>
+        </ImageBackground>
     );
 }

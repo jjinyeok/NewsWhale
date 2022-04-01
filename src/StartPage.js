@@ -8,18 +8,17 @@ import {
     StyleSheet,
     View,
     Text,
-    Image,
     TouchableOpacity,
     ImageBackground,
     TextInput,
 } from 'react-native';
 
-const StartPage = ({navigation}) => {
+export default function StartPage({navigation}) {
     const [ID, setID] = useState("");
     const [password, setPassword] = useState("");
-
     const [isReady, setIsReady] = useState(false);
     useEffect(async () => {
+        // 시작과 동시에 Font를 저장 -> 'MapoPeacefull"
         await Font.loadAsync({
           "MapoPeacefull": require("/Users/jjinyeok/Documents/news-whale/assets/fonts/MapoPeacefull.ttf"),
         });
@@ -28,7 +27,7 @@ const StartPage = ({navigation}) => {
 
     return (
         <ImageBackground source={require('../assets/sky.jpg')} style={{flex: 1}}>
-        {isReady && (
+        {isReady && ( //Font를 불러왔다면 화면을 띄움
         <View style={styles.container}>
             <View style={styles.loginArea}>
                 <View style={{flex: 1.5, alignItems: 'center', justifyContent: 'center'}}>
@@ -44,6 +43,7 @@ const StartPage = ({navigation}) => {
                 <View style={{flex: 1, flexDirection: "row"}}>
                     <Text style={{flex: 1, fontSize: 30, marginLeft: '5%', color: 'white', fontFamily: 'MapoPeacefull'}}>P/W</Text>
                     <TextInput
+                        secureTextEntry={true}
                         style={styles.input}
                         onChangeText={setPassword}
                     />
@@ -61,19 +61,20 @@ const StartPage = ({navigation}) => {
                             userPassword: password,
                         })}
                     >
-                        <Text style={{fontSize: 24, fontFamily: 'MapoPeacefull'}}>로그인</Text>
+                        <Text style={styles.text}>로그인</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 3, justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
-                    <TouchableOpacity style={{flex: 1, height: '60%', width: '90%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: 10, margin: '1%'}}>
-                        <Text style={{fontSize: 24 , fontFamily: 'MapoPeacefull'}}>네이버로 로그인</Text>
+                    <TouchableOpacity style={styles.signUp}>
+                        <Text style={styles.text}>네이버로 로그인</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{flex: 1, height: '60%', width: '90%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: 10, margin: '1%'}}>
-                        <Text style={{fontSize: 24 , fontFamily: 'MapoPeacefull'}}>카카오로 로그인</Text>
+                    <TouchableOpacity style={styles.signUp}>
+                        <Text style={styles.text}>카카오로 로그인</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{flex: 1, height: '60%', width: '90%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: 10, marginTop: '1%', marginBottom: '5%'}}>
-                        <Text style={{fontSize: 24 , fontFamily: 'MapoPeacefull'}}>회원가입</Text>
+                    <TouchableOpacity style={styles.signUp}>
+                        <Text style={styles.text}>회원가입</Text>
                     </TouchableOpacity>
+                    <View style={{flex: 0.25}}/>
                 </View>
             </View>
         </View>
@@ -84,8 +85,7 @@ const StartPage = ({navigation}) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, //전체의 공간을 차지한다는 의미
-        //flexDirection: 'column',
+        flex: 1, 
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         height: hp(60),
         width: wp(80),
         borderRadius: 20,
-        overflow: "hidden"
+        overflow: "hidden",
     },
     input: {
         flex: 3,
@@ -103,8 +103,20 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         width: '60%',
         marginRight: '5%',
-        paddingLeft: '5%'
+        paddingLeft: '5%',
+    },
+    text: {
+        fontSize: 24 , 
+        fontFamily: 'MapoPeacefull',
+    },
+    signUp: {
+        flex: 1, 
+        height: '60%', 
+        width: '90%', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        backgroundColor: 'white', 
+        borderRadius: 10, 
+        margin: '1%'
     },
 });
-
-export default StartPage;

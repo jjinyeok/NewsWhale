@@ -23,7 +23,7 @@ export default function App() {
           headerTintColor: '#EFFFFD',
         }}/>
         <Stack.Screen name="Main" component={MainPage} options={({route})=>({ title: route.params.userID + '님의 메인페이지' })}/>
-        <Stack.Screen name="My" component={MyPage} options={({route})=>({ title: route.params.name + '님의 메인페이지' })}/>
+        <Stack.Screen name="My" component={MyPage} options={({route})=>({ title: route.params.userID + '님의 메인페이지' })}/>
         <Stack.Screen name="AddKeywords" component={AddKeywordsPage} options={{title: '키워드 추가하기'}}/>
       </Stack.Navigator>
       <StatusBar style="invert" />
