@@ -26,7 +26,7 @@ export default function StartPage({navigation}) {
       }, []);
 
     return (
-        <ImageBackground source={require('../assets/sky.jpg')} style={{flex: 1}}>
+        <View style={{flex: 1}}>
         {isReady && ( //Font를 불러왔다면 화면을 띄움
         <View style={styles.container}>
             <View style={styles.loginArea}>
@@ -79,7 +79,7 @@ export default function StartPage({navigation}) {
             </View>
         </View>
         )}
-        </ImageBackground>
+        </View>
     );
 };
 
