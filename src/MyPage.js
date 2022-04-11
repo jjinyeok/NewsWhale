@@ -2,8 +2,6 @@ import React from 'react';
 import { 
     View, 
     Text, 
-    ImageBackground, 
-    Button, 
     Image, 
     TouchableOpacity, 
     ScrollView,
@@ -13,12 +11,25 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/AntDesign';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function MyPage({ navigation, route }) {
     const keywords = [<View style={{height: hp(1.5)}} key={-1}/>];
     let keywordsCount = 99;
     let keywordsOutput = Math.min(100, keywordsCount);
+
+    const goToStartPage = () => {
+        AsyncStorage.removeItem('user');
+        navigation.navigate('Start');
+    }
+    const goToMainPage = () => {
+        navigation.navigate('Main')
+    }
+    const goToAddKeywordsPage = () => {
+        navigation.navigate('AddKeywords')
+    }
+
     for(let i = 0; i < parseInt(keywordsOutput / 2); i++) {
         keywords.push(
             <View key={i}>
@@ -68,10 +79,8 @@ export default function MyPage({ navigation, route }) {
         <View style={{flex: 0.5}}/>
         <View style={{flex: 0.5, justifyContent: 'center'}}>
             <View style={{marginLeft: '5%'}}>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('Main');
-                }} style={{}}>
-                    <Icon name="doubleleft" size={wp(10)} color="skyblue"/>
+                <TouchableOpacity onPress={goToMainPage} style={{}}>
+                    <Icon name="doubleleft" size={hp(5)} color="skyblue"/>
                 </TouchableOpacity>
             </View>
         </View>
@@ -80,10 +89,7 @@ export default function MyPage({ navigation, route }) {
                     width: hp(20), height: hp(20), borderRadius: hp(20), overflow: "hidden"}}/>
         </View>
         <View style={{ flex: 0.5, alignItems: "center", justifyContent: "center"}}>
-            <TouchableOpacity
-                onPress={() => {
-                    navigation.navigate('Start');
-            }}>
+            <TouchableOpacity onPress={goToStartPage}>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
                     <Text style={{textAlign: 'center'}}>로그아웃</Text>
                 </View>
@@ -99,9 +105,8 @@ export default function MyPage({ navigation, route }) {
         <View style={{ flex: 1.5, alignItems: "center", justifyContent: "center", }}>
             <TouchableOpacity style={{
                 backgroundColor: 'skyblue', width: wp(80), height: wp(15), overflow: "hidden", borderRadius: 20, }} 
-                onPress={() => {
-                    navigation.navigate('AddKeywords');
-            }}>
+                onPress={goToAddKeywordsPage}
+            >
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
                     <Text style={{textAlign: 'center', fontSize: 24}}>키워드 추가하기</Text>
                 </View>
@@ -124,3 +129,4 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     }
 })
+

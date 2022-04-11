@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { View, Text, Button, TextInput, ImageBackground, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function AddKeywordsPage({ navigation }) {
@@ -12,7 +13,15 @@ export default function AddKeywordsPage({ navigation }) {
     const goToMainPage = () => {
         navigation.navigate('Main')
     }
+    const goToMyPage = () => {
+        navigation.navigate('My')
+    }
     const recommendations = [];
+    AsyncStorage.getItem('user', (err, result) => {
+        const user = JSON.parse(result);
+        alert(user.id, user.password);
+    })
+
 
     for(let i = 0; i < 5; i++) {
         recommendations.push(
@@ -44,8 +53,8 @@ export default function AddKeywordsPage({ navigation }) {
             <View style={{flex: 0.5}}/>
             <View style={{flex: 0.5, justifyContent: 'center'}}>
                 <View style={{marginLeft: '5%'}}>
-                    <TouchableOpacity onPress={goToMainPage} style={{}}>
-                        <Icon name="doubleleft" size={wp(10)} color="skyblue"/>
+                    <TouchableOpacity onPress={goToMainPage}>
+                        <Icon name="doubleleft" size={hp(5)} color="skyblue"/>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -63,9 +72,8 @@ export default function AddKeywordsPage({ navigation }) {
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
                     <TouchableOpacity style={{
                         backgroundColor: 'skyblue', width: wp(80), height: wp(10), overflow: "hidden", borderRadius: 20, }} 
-                        onPress={() => {
-                            navigation.navigate('My');
-                    }}>
+                        onPress={goToMyPage}
+                    >
                         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
                             <Text style={{textAlign: 'center', fontSize: 24}}>추가하기</Text>
                         </View>

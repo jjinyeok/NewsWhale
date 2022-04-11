@@ -2,7 +2,6 @@ import React from 'react';
 import { 
     View, 
     Text, 
-    ImageBackground, 
     TouchableOpacity, 
     Image, 
     StyleSheet,
@@ -16,21 +15,22 @@ import {
 
 
 export default function MainPage({ navigation, route }) {
-    //const { userID, userPassword } = route.params;
-    const newsList = React.createRef();
 
+    const newsList = React.createRef();
     const sendNewsURL = async () => {        
-        // 기사로 이동
+        // 기사로 이동 함수
         await Linking.openURL('https://n.news.naver.com/article/214/0001187231?cds=news_media_pc');
     }
     const sendNewsMedia = async () => {
-        // 신문사로 이동
+        // 신문사로 이동 함수
         await Linking.openURL('https://imnews.imbc.com/pc_main.html');
+    }
+    const goToMyPage = () => {
+        navigation.navigate("My");
     }
 
     // 화면에 출력될 뉴스 링크들
     let newList = [<View key={-1} style={{height: hp(2)}}></View>];
-    
     for(let i = 0; i < 100; i++) {
         newList.push(
         <View key={i} style={styles.news}>
@@ -58,24 +58,23 @@ export default function MainPage({ navigation, route }) {
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-                            <View style={{backgroundColor: 'skyblue', width: '80%', height: '80%', alignItems: 'center', justifyContent: 'center', borderRadius: 20}}>
+                            <View style={styles.keywordBlock}>
                                 <Text>키워드1</Text>
                             </View>
                         </View>
                         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-                            <View style={{backgroundColor: 'skyblue', width: '80%', height: '75%', alignItems: 'center', justifyContent: 'center', borderRadius: 20}}>
+                            <View style={styles.keywordBlock}>
                                 <Text>키워드2</Text>
                             </View>
                         </View>
                         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-                            <View style={{backgroundColor: 'skyblue', width: '80%', height: '75%', alignItems: 'center', justifyContent: 'center', borderRadius: 20}}>
+                            <View style={styles.keywordBlock}>
                                 <Text>키워드3</Text>
                             </View>
                         </View>
                     </View>
                 </View>
                 </TouchableOpacity>
-                
             </View>
         </View>)
     }
@@ -84,11 +83,9 @@ export default function MainPage({ navigation, route }) {
             <View style={{flex: 0.5, }}>
             </View>
             <View style={{flex: 1, flexDirection: 'row', alignItems: "center"}}>
-                <TouchableOpacity style={{marginLeft: '80%'}} onPress={() => {
-                    navigation.navigate('My');
-                }}>
+                <TouchableOpacity style={{marginLeft: '80%'}} onPress={goToMyPage}>
                     <Image source={require('../assets/blank.png') } resizeMode="contain" style={{
-                        width: wp(15), height: wp(15), borderRadius: wp(30), overflow: "hidden"}}/>
+                        width: wp(10), height: wp(10), borderRadius: wp(40), overflow: "hidden"}}/>
                 </TouchableOpacity>
             </View>
             <View style={{flex: 8, alignItems: 'center', alignContent: 'center'}}>
@@ -119,4 +116,13 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         overflow: 'hidden',
     },
+    keywordBlock: {
+        backgroundColor: 'skyblue', 
+        width: '80%', 
+        height: '80%', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        borderRadius: 20,
+    }
 })
+

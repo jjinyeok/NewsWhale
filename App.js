@@ -6,21 +6,39 @@ import StartPage from './src/StartPage';
 import MainPage from './src/MainPage';
 import MyPage from './src/MyPage';
 import AddKeywordsPage from './src/AddKeywordsPage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// ios Remote debugger 방지
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Remote debugger']);
+
+// NativeNavigator 객체
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [user, setUser] = useState({}); 
+  useEffect(() => {
+    AsyncStorage.getItem('user', (err, result) => {
+      if(result === undefined) {
+        setUser({});
+      }
+      else{
+        setUser(JSON.parse(result));
+      }
+      console.log('id: ' + user.id);
+      console.log('password: ' + user.password);
+    })
+  }, [])
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Start" screenOptions={{headerShown: false}}>
+      <Stack.Navigator 
+        initialRouteName={(user === {}) ? "Main" : "Start"} screenOptions={{headerShown: false}}>
         <Stack.Screen name="Start" component={StartPage}/>
         <Stack.Screen name="Main" component={MainPage}/>
         <Stack.Screen name="My" component={MyPage}/>
         <Stack.Screen name="AddKeywords" component={AddKeywordsPage}/>
       </Stack.Navigator>
       <StatusBar style="invert" />
-    </NavigationContainer>
+    </NavigationContainer> 
   );
 }
