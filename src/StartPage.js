@@ -22,7 +22,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // 통신을 위해 사용하는 axios
 import axios from 'axios';
 
-const baseUrl = "http://52.79.248.115:8080";
+//여기에 현재 내 IP 주소(localhost나 127.0.0.1말고)를 주면 local 환경에서도 실험 가능
+const baseUrl = "http://192.168.219.114:8080";
 
 export default function StartPage({navigation}) {
     // input 값
@@ -32,12 +33,24 @@ export default function StartPage({navigation}) {
     const [isReady, setIsReady] = useState(false);
 
     const goToMainPage = async () => {
-        const response = await axios.post(`${baseUrl}/login`, {
-            id: id,
-            password: password
-        })
-        AsyncStorage.setItem('user', JSON.stringify({'id': response.data.id, 'password': response.data.password}))
+        // const response = await axios.post(`${baseUrl}/auth/signin`, {
+        //     id: id,
+        //     password: password
+        // })
+        // AsyncStorage.setItem('user', 
+        //     JSON.stringify({
+        //         'user_id': response.data.user_id,
+        //         'id': response.data.id, 
+        //         'password': response.data.password,
+        //         'nickname': response.data.nickname,
+        //         'email': response.data.email,
+        //     })
+        // );
         navigation.navigate('Main');
+    }
+
+    const goToSignUpPage = () => {
+        navigation.navigate('SignUp')
     }
 
     useEffect(async () => {
@@ -88,8 +101,8 @@ export default function StartPage({navigation}) {
                     <TouchableOpacity style={styles.signUpButton}>
                         <Text style={styles.buttonText}>카카오로 로그인</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.signUpButton}>
-                        <Text style={styles.buttonText}>회원가입</Text>
+                    <TouchableOpacity style={styles.signUpButton} onPress={goToSignUpPage}>
+                        <Text style={styles.buttonText}>회원가입하러 가기</Text>
                     </TouchableOpacity>
                     <View style={{flex: 0.25}}/>
                 </View>

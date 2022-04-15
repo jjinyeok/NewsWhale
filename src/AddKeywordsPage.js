@@ -19,7 +19,7 @@ export default function AddKeywordsPage({ navigation }) {
     const recommendations = [];
     AsyncStorage.getItem('user', (err, result) => {
         const user = JSON.parse(result);
-        alert(user.id, user.password);
+        alert(user.id + ' ' + user.password);
     })
 
 
@@ -51,7 +51,7 @@ export default function AddKeywordsPage({ navigation }) {
     return (
         <View style={{ flex: 1}}>
             <View style={{flex: 0.5}}/>
-            <View style={{flex: 0.5, justifyContent: 'center'}}>
+            <View style={{flex: 1, justifyContent: 'center'}}>
                 <View style={{marginLeft: '5%'}}>
                     <TouchableOpacity onPress={goToMainPage}>
                         <Icon name="doubleleft" size={hp(5)} color="skyblue"/>

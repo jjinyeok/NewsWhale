@@ -77,7 +77,7 @@ export default function MyPage({ navigation, route }) {
     return (
         <View style={{flex: 1}}>
         <View style={{flex: 0.5}}/>
-        <View style={{flex: 0.5, justifyContent: 'center'}}>
+        <View style={{flex: 1, justifyContent: 'center'}}>
             <View style={{marginLeft: '5%'}}>
                 <TouchableOpacity onPress={goToMainPage} style={{}}>
                     <Icon name="doubleleft" size={hp(5)} color="skyblue"/>
