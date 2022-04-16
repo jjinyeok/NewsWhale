@@ -24,6 +24,7 @@ export default function App() {
         setUser({});
       }
       else{
+        //console.log('aaaaa');
         setUser(JSON.parse(result));
       }
     })

@@ -6,6 +6,7 @@ import {
     Text,
     TouchableOpacity,
     TextInput,
+    Alert
 } from 'react-native';
 
 // 화면 비율 맞추기 위한 lib
@@ -28,23 +29,30 @@ export default function SignUpPage({navigation}) {
     const [passwordCheck, setPasswordCheck] = useState("");
     const [nickname, setNickname] = useState("");
     const [email, setEmail] = useState("");
+    const [idCheckSuccess, setIdCheckSuccess] = useState(false);
 
     const goToStartPage = () => {
         navigation.navigate('Start')
     }
 
+    // 회원가입 버튼 클릭
     const signUp = async () => {
-
-        if(id == ""){
-            alert("아이디는 필수 항목입니다.");
+        if(id == "" || !idCheckSuccess){
+            Alert.alert("경고", 
+                "아이디는 필수 항목입니다.",
+                [ {text: '확인',}]);
             navigation.navigate('SignUp');
         }
         else if(password == ""){
-            alert("비밀번호는 필수 항목입니다.");
+            Alert.alert("경고", 
+                "비밀번호는 필수 항목입니다.",
+                [ {text: '확인',}]);
             navigation.navigate('SignUp');
         }
         else if(password !== passwordCheck) {
-            alert("비밀번호와 비밀번호 확인이 다릅니다.\n 확인해주세요.");
+            Alert.alert("경고", 
+                "비밀번호와 비밀번호 확인이 일치하지 않습니다. 확인해주세요.",
+                [ {text: '확인',}]);
             navigation.navigate('SignUp');
         }
         else {
@@ -54,17 +62,30 @@ export default function SignUpPage({navigation}) {
                 nickname: nickname,
                 email: email,
             });
-            navigation.navigate('Start');
+            if(response.data.id === id) {
+                console.log(id)
+                navigation.navigate('Start');
+            }
         }
-        // AsyncStorage.setItem('user', 
-        //     JSON.stringify({
-        //         'user_id': response.data.user_id,
-        //         'id': response.data.id, 
-        //         'password': response.data.password,
-        //         'nickname': response.data.nickname,
-        //         'email': response.data.email,
-        //     })
-        // );
+    }
+
+    // 아이디 중복확인 버튼 클릭
+    const idCheck = async () => {
+        console.log(id);
+        const response = await axios.post(`${baseUrl}/auth/idcheck`, {
+            id: id
+        });
+        if(response.data === 'IdDuplicate') {
+            Alert.alert("", 
+            "이미 존재하는 아이디입니다. 다른 아이디를 선택해주세요.",
+            [ {text: '확인',}]);
+        }
+        else if(response.data === 'newId') {
+            Alert.alert("",
+            "사용가능한 아이디입니다.",
+            [ {text: '확인',}])
+            setIdCheckSuccess(true);
+        }
     }
 
     return(
@@ -92,8 +113,9 @@ export default function SignUpPage({navigation}) {
                         <TextInput
                             onChangeText={setId}
                             style={styles.input}
+                            editable={!idCheckSuccess}
                         />
-                        <TouchableOpacity onPress={goToStartPage} style={styles.overlapCheckButton}>
+                        <TouchableOpacity onPress={idCheck} style={styles.overlapCheckButton}>
                             <Text style={{fontFamily: 'MapoPeacefull', fontSize: hp(1.5), textAlign: 'center'}}>중복확인</Text>
                         </TouchableOpacity>
                     </View>
@@ -219,7 +241,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        //backgroundColor: 'tomato',
         width: wp(80),
     },
     input: {
@@ -230,6 +251,7 @@ const styles = StyleSheet.create({
         marginLeft: '5%',
         marginRight: '5%',
         paddingLeft: '5%',
+        fontFamily: 'MapoPeacefull',
     },
     overlapCheckButton: {
         backgroundColor: 'white',

@@ -19,8 +19,13 @@ export default function MyPage({ navigation, route }) {
     let keywordsCount = 99;
     let keywordsOutput = Math.min(100, keywordsCount);
 
-    const goToStartPage = () => {
-        AsyncStorage.removeItem('user');
+    const goToStartPage = async () => {
+        try {
+            await AsyncStorage.removeItem('user')
+        } catch(e) {
+            // remove error
+        }
+        console.log('Done.');
         navigation.navigate('Start');
     }
     const goToMainPage = () => {
@@ -35,19 +40,19 @@ export default function MyPage({ navigation, route }) {
             <View key={i}>
                 <View style={{ flexDirection: 'row', }}>
                     <View id={i * 2} style={styles.news}>
-                        <Text style={{textAlign: 'center', flex: 5}}>#키워드 {i * 2 + 1}</Text>
+                        <Text style={{textAlign: 'center', flex: 5, fontFamily: 'MapoPeacefull'}}>#키워드 {i * 2 + 1}</Text>
                         <TouchableOpacity style={{flex: 1.5}}>
                             <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', borderRadius: 20}}>
-                                <Text>삭제</Text> 
+                                <Text style={{fontFamily: 'MapoPeacefull'}}>삭제</Text> 
                             </View>
                         </TouchableOpacity>
                     </View>
                     <View style={{width: wp(10)}} />
                     <View id={i * 2 + 1} style={styles.news}>
-                        <Text style={{textAlign: 'center', flex: 5}}>#키워드 {i * 2 + 1 + 1}</Text>
+                        <Text style={{textAlign: 'center', flex: 5, fontFamily: 'MapoPeacefull'}}>#키워드 {i * 2 + 1 + 1}</Text>
                         <TouchableOpacity style={{flex: 1.5}}>
                             <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', borderRadius: 20}}>
-                                <Text>삭제</Text> 
+                                <Text style={{fontFamily: 'MapoPeacefull'}}>삭제</Text> 
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -91,7 +96,7 @@ export default function MyPage({ navigation, route }) {
         <View style={{ flex: 0.5, alignItems: "center", justifyContent: "center"}}>
             <TouchableOpacity onPress={goToStartPage}>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-                    <Text style={{textAlign: 'center'}}>로그아웃</Text>
+                    <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>로그아웃</Text>
                 </View>
             </TouchableOpacity>
         </View>
@@ -99,6 +104,7 @@ export default function MyPage({ navigation, route }) {
             <ScrollView style={{flex: 1}}>
                 <View style={{alignItems: "center"}}>
                     {keywords}
+                    {/* <Text>키워드를 추가해보세요</Text> */}
                 </View>
             </ScrollView>
         </View>
@@ -108,7 +114,7 @@ export default function MyPage({ navigation, route }) {
                 onPress={goToAddKeywordsPage}
             >
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-                    <Text style={{textAlign: 'center', fontSize: 24}}>키워드 추가하기</Text>
+                    <Text style={{textAlign: 'center', fontSize: 24, fontFamily: 'MapoPeacefull'}}>키워드 추가하기</Text>
                 </View>
             </TouchableOpacity>
         </View>

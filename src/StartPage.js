@@ -5,6 +5,7 @@ import {
     Text,
     TouchableOpacity,
     TextInput,
+    Alert,
 } from 'react-native';
 
 // 화면 비율 맞추기 위한 lib
@@ -33,20 +34,34 @@ export default function StartPage({navigation}) {
     const [isReady, setIsReady] = useState(false);
 
     const goToMainPage = async () => {
-        // const response = await axios.post(`${baseUrl}/auth/signin`, {
-        //     id: id,
-        //     password: password
-        // })
-        // AsyncStorage.setItem('user', 
-        //     JSON.stringify({
-        //         'user_id': response.data.user_id,
-        //         'id': response.data.id, 
-        //         'password': response.data.password,
-        //         'nickname': response.data.nickname,
-        //         'email': response.data.email,
-        //     })
-        // );
-        navigation.navigate('Main');
+        const response = await axios.post(`${baseUrl}/auth/signin`, {
+            id: id,
+            password: password
+        })
+        AsyncStorage.setItem('user', 
+            JSON.stringify({
+                'user_id': response.data.user_id,
+                'id': response.data.id, 
+                'password': response.data.password,
+                'nickname': response.data.nickname,
+                'email': response.data.email,
+            })
+        );
+        console.log(response.data.id)
+        console.log(response.data.password)
+        if(response.data.id === id){
+            if(response.data.password === password) {
+                navigation.navigate('Main');
+            }
+            else {
+                Alert.alert('로그인 실패',
+                '비밀번호를 확인해주세요')
+            }
+        }
+        else {
+            Alert.alert('로그인 실패', 
+            '아이디를 확인해주세요');
+        }
     }
 
     const goToSignUpPage = () => {
@@ -62,7 +77,7 @@ export default function StartPage({navigation}) {
     }, []);
 
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, alignItems: 'center'}}>
         {isReady && ( //Font를 불러왔다면 화면을 띄움
         <View style={styles.container}>
             <View style={styles.loginArea}>
@@ -134,6 +149,7 @@ const styles = StyleSheet.create({
         width: '60%',
         marginRight: '5%',
         paddingLeft: '5%',
+        fontFamily: 'MapoPeacefull'
     },
     loginText: {
         fontSize: 60, 
@@ -176,4 +192,3 @@ const styles = StyleSheet.create({
         borderRadius: 20, 
     }
 });
-

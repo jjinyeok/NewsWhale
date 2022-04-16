@@ -17,10 +17,10 @@ export default function AddKeywordsPage({ navigation }) {
         navigation.navigate('My')
     }
     const recommendations = [];
-    AsyncStorage.getItem('user', (err, result) => {
-        const user = JSON.parse(result);
-        alert(user.id + ' ' + user.password);
-    })
+    // AsyncStorage.getItem('user', (err, result) => {
+    //     const user = JSON.parse(result);
+    //     alert(user.id + ' ' + user.password);
+    // })
 
 
     for(let i = 0; i < 5; i++) {
@@ -30,7 +30,7 @@ export default function AddKeywordsPage({ navigation }) {
                     <View id={i * 2} style={styles.recommendations}>
                         <TouchableOpacity style={{flex: 1.5}}>
                             <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', borderRadius: 20}}>
-                                <Text>키워드 {i * 2 + 1}</Text> 
+                                <Text style={{fontFamily: 'MapoPeacefull'}}>키워드 {i * 2 + 1}</Text> 
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -38,7 +38,7 @@ export default function AddKeywordsPage({ navigation }) {
                     <View id={i * 2 + 1} style={styles.recommendations}>
                         <TouchableOpacity style={{flex: 1.5}}>
                             <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', borderRadius: 20}}>
-                                <Text>키워드 {i * 2 + 1 + 1}</Text> 
+                                <Text style={{fontFamily: 'MapoPeacefull'}}>키워드 {i * 2 + 1 + 1}</Text> 
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -62,7 +62,7 @@ export default function AddKeywordsPage({ navigation }) {
                 <View style={{flex: 2}}/>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
                     <TextInput
-                        style={{width: wp(80), height: hp(5), borderColor: 'black', borderWidth: 1, fontSize: 20, backgroundColor:'white',}}
+                        style={{width: wp(80), height: hp(5), borderColor: 'black', borderWidth: 1, fontSize: 20, backgroundColor:'white',fontFamily: 'MapoPeacefull', paddingLeft: '5%',}}
                         onChangeText={setText}
                         value={text}
                         placeholder="검색어를 입력해주세요"
@@ -75,13 +75,13 @@ export default function AddKeywordsPage({ navigation }) {
                         onPress={goToMyPage}
                     >
                         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-                            <Text style={{textAlign: 'center', fontSize: 24}}>추가하기</Text>
+                            <Text style={{textAlign: 'center', fontSize: 24, fontFamily: 'MapoPeacefull'}}>추가하기</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 5}}>
                     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                        <Text style={{fontSize: 16}}>추천 키워드</Text>
+                        <Text style={{fontSize: 16, fontFamily: 'MapoPeacefull'}}>추천 키워드</Text>
                     </View>
                     <View style={{flex: 3}}>
                         <View style={{alignItems: "center"}}>

@@ -28,6 +28,9 @@ export default function MainPage({ navigation, route }) {
     const goToMyPage = () => {
         navigation.navigate("My");
     }
+    const goToAddKeywordsPage = () => {
+        navigation.navigate("AddKeywords");
+    }
 
     // 화면에 출력될 뉴스 링크들
     let newList = [<View key={-1} style={{height: hp(2)}}></View>];
@@ -86,12 +89,15 @@ export default function MainPage({ navigation, route }) {
                 <TouchableOpacity style={{flex: 1, alignItems: 'center', marginLeft: '75%'}} onPress={goToMyPage}>
                     <Image source={require('../assets/blank.png') } resizeMode="contain" style={{
                         width: wp(10), height: wp(10), borderRadius: wp(30), overflow: "hidden", flex: 2}}/>
-                    <Text style={{flex: 1, fontFamily: 'MapoPeacefull'}}>My Page</Text>
+                    <Text style={{flex: 1, fontFamily: 'MapoPeacefull', fontSize: hp(1.5)}}>마이 키워드</Text>
                 </TouchableOpacity>
             </View>
             <View style={{flex: 8, alignItems: 'center', alignContent: 'center'}}>
                 <ScrollView style={styles.newsArea}>
                     {newList}
+                    {/* <TouchableOpacity onPress={goToAddKeywordsPage}>
+                        <Text}>키워드를 등록하세요</Text>
+                    </TouchableOpacity> */}
                 </ScrollView>
             </View>
             <View style={{flex: 0.5}}></View>
