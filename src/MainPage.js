@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { 
     View, 
     Text, 
@@ -8,13 +9,25 @@ import {
     ScrollView,
     Linking, 
 } from 'react-native';
+
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+import Icon from 'react-native-vector-icons/Feather';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function MainPage({ navigation, route }) {
+
+    const [token, setToken] = useState("");
+
+    useEffect(() => {
+        AsyncStorage.getItem('token', (err, result) => {
+            setToken(result);
+        });
+    }, []);
 
     const newsList = React.createRef();
     const sendNewsURL = async () => {        
@@ -43,7 +56,7 @@ export default function MainPage({ navigation, route }) {
                         <View style={{flex: 5, alignItems: 'center', justifyContent: 'center'}}>
                             <View style={{backgroundColor: 'skyblue', width: wp(15), height: wp(15), borderRadius: wp(15), alignItems: 'center', justifyContent: 'center'}}>
                                 <Text style={{fontFamily: 'MapoPeacefull'}}>
-                                    MBC뉴스
+                                    Test 언론사
                                 </Text>
                             </View>
                         </View>
@@ -53,11 +66,11 @@ export default function MainPage({ navigation, route }) {
                 <View style={{flex: 7,}}>
                     <View style={{flex: 5, justifyContent: 'center', alignItems: 'center'}}>
                         <Text ref={newsList} style={{ fontSize: hp(2), fontFamily: 'MapoPeacefull'}}>
-                            5차 평화협상 청신호?‥우크라 "중립국 되겠다"
+                            Test 뉴스 제목
                         </Text>
                     </View>
                     <View style={{flex: 1, alignItems: 'flex-start', justifyContent: 'center', opacity: 0.6, marginLeft: '6%'}}>
-                        <Text style={{fontSize: hp(1), fontFamily: 'MapoPeacefull'}}>전재홍 기자</Text>
+                        <Text style={{fontSize: hp(1), fontFamily: 'MapoPeacefull'}}>홍길동 기자</Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
@@ -87,9 +100,10 @@ export default function MainPage({ navigation, route }) {
             </View>
             <View style={{flex: 1, flexDirection: 'row', alignItems: "center"}}>
                 <TouchableOpacity style={{flex: 1, alignItems: 'center', marginLeft: '75%'}} onPress={goToMyPage}>
-                    <Image source={require('../assets/blank.png') } resizeMode="contain" style={{
-                        width: wp(10), height: wp(10), borderRadius: wp(30), overflow: "hidden", flex: 2}}/>
-                    <Text style={{flex: 1, fontFamily: 'MapoPeacefull', fontSize: hp(1.5)}}>마이 키워드</Text>
+                    <Icon name='home' size={wp(10)} color={'skyblue'}></Icon>
+                    {/* <Image source={require('../assets/blank.png') } resizeMode="contain" style={{
+                        width: wp(10), height: wp(10), borderRadius: wp(30), overflow: "hidden", flex: 2}}/> */}
+                    {/* <Text style={{flex: 1, fontFamily: 'MapoPeacefull', fontSize: hp(1.5), color: 'skyblue'}}>마이 키워드</Text> */}
                 </TouchableOpacity>
             </View>
             <View style={{flex: 8, alignItems: 'center', alignContent: 'center'}}>

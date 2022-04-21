@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Picker } from 'react-native-web';
 import {
     StyleSheet,
     View,
@@ -24,7 +23,7 @@ const baseUrl = "http://192.168.219.114:8080";
 import Icon from 'react-native-vector-icons/AntDesign';
 
 export default function SignUpPage({navigation}) {
-    const [id, setId] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
     const [nickname, setNickname] = useState("");
@@ -37,7 +36,7 @@ export default function SignUpPage({navigation}) {
 
     // 회원가입 버튼 클릭
     const signUp = async () => {
-        if(id == "" || !idCheckSuccess){
+        if(username == "" || !idCheckSuccess){
             Alert.alert("경고", 
                 "아이디는 필수 항목입니다.",
                 [ {text: '확인',}]);
@@ -57,13 +56,13 @@ export default function SignUpPage({navigation}) {
         }
         else {
             const response = await axios.post(`${baseUrl}/auth/signup`, {
-                id: id,
+                username: username,
                 password: password,
                 nickname: nickname,
                 email: email,
             });
-            if(response.data.id === id) {
-                console.log(id)
+            if(response.data.username === username) {
+                console.log(username)
                 navigation.navigate('Start');
             }
         }
@@ -71,16 +70,16 @@ export default function SignUpPage({navigation}) {
 
     // 아이디 중복확인 버튼 클릭
     const idCheck = async () => {
-        console.log(id);
-        const response = await axios.post(`${baseUrl}/auth/idcheck`, {
-            id: id
+        console.log(username);
+        const response = await axios.post(`${baseUrl}/auth/duplicatecheck`, {
+            username: username
         });
-        if(response.data === 'IdDuplicate') {
+        if(response.data === true) {
             Alert.alert("", 
             "이미 존재하는 아이디입니다. 다른 아이디를 선택해주세요.",
             [ {text: '확인',}]);
         }
-        else if(response.data === 'newId') {
+        else if(response.data === false) {
             Alert.alert("",
             "사용가능한 아이디입니다.",
             [ {text: '확인',}])
@@ -111,7 +110,7 @@ export default function SignUpPage({navigation}) {
                     </View>
                     <View style={styles.idChecker}>
                         <TextInput
-                            onChangeText={setId}
+                            onChangeText={setUsername}
                             style={styles.input}
                             editable={!idCheckSuccess}
                         />
@@ -146,7 +145,7 @@ export default function SignUpPage({navigation}) {
                 </View>
                 <View style={{flex: 1}}>
                     <View style={{flex: 1, justifyContent: 'center'}}>
-                        <Text style={styles.text}>닉네임</Text>
+                        <Text style={styles.text}>닉네임*</Text>
                     </View>
                     <View style={styles.passwordChecker}>
                         <TextInput
@@ -157,7 +156,7 @@ export default function SignUpPage({navigation}) {
                 </View>
                 <View style={{flex: 1}}>
                     <View style={{flex: 1, justifyContent: 'center'}}>
-                        <Text style={styles.text}>이메일</Text>
+                        <Text style={styles.text}>이메일*</Text>
                     </View>
                     <View style={styles.passwordChecker}>
                         <TextInput

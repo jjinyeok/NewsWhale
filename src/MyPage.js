@@ -1,17 +1,22 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { 
     View, 
     Text, 
     Image, 
     TouchableOpacity, 
     ScrollView,
-    StyleSheet } from 'react-native';
+    StyleSheet,
+    ImageBackground,
+    Alert
+} from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/AntDesign';
+import Icon2 from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 
 export default function MyPage({ navigation, route }) {
@@ -19,13 +24,26 @@ export default function MyPage({ navigation, route }) {
     let keywordsCount = 99;
     let keywordsOutput = Math.min(100, keywordsCount);
 
-    const goToStartPage = async () => {
-        try {
-            await AsyncStorage.removeItem('user')
-        } catch(e) {
-            // remove error
+    const [token, setToken] = useState("");
+    const [testString, setTestString] = useState("");
+
+    AsyncStorage.getItem('token', (err, result) => {
+        setToken(result);
+        console.log(token)
+    });
+
+    axios.get('http://192.168.219.114:8080/test', {
+        headers: {
+            Authorization: `Bearer ${token}`,
         }
-        console.log('Done.');
+    }).then((response) => {
+        setTestString(response.data)
+        console.log(response.data);
+    }).catch((e) => {
+        console.log(e)
+    })
+
+    const goToStartPage = async () => {
         navigation.navigate('Start');
     }
     const goToMainPage = () => {
@@ -38,21 +56,25 @@ export default function MyPage({ navigation, route }) {
     for(let i = 0; i < parseInt(keywordsOutput / 2); i++) {
         keywords.push(
             <View key={i}>
-                <View style={{ flexDirection: 'row', }}>
+                <View style={{ flexDirection: 'row', height: hp(5)}}>
                     <View id={i * 2} style={styles.news}>
-                        <Text style={{textAlign: 'center', flex: 5, fontFamily: 'MapoPeacefull'}}>#키워드 {i * 2 + 1}</Text>
-                        <TouchableOpacity style={{flex: 1.5}}>
-                            <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', borderRadius: 20}}>
-                                <Text style={{fontFamily: 'MapoPeacefull'}}>삭제</Text> 
+                        <View style={{width: wp(35) - hp(5)}}>
+                            <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>#키워드 {i * 2 + 1}</Text>
+                        </View>
+                        <TouchableOpacity style={{}}>
+                            <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', width: hp(5), height: '100%', borderRadius: hp(20)}}>
+                                <Icon2 name="trash-2" size={hp(3)} color="white"/>
                             </View>
                         </TouchableOpacity>
                     </View>
                     <View style={{width: wp(10)}} />
                     <View id={i * 2 + 1} style={styles.news}>
-                        <Text style={{textAlign: 'center', flex: 5, fontFamily: 'MapoPeacefull'}}>#키워드 {i * 2 + 1 + 1}</Text>
-                        <TouchableOpacity style={{flex: 1.5}}>
-                            <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', borderRadius: 20}}>
-                                <Text style={{fontFamily: 'MapoPeacefull'}}>삭제</Text> 
+                        <View style={{width: wp(35) - hp(5)}}>
+                            <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>#키워드 {i * 2 + 2}</Text>
+                        </View>
+                        <TouchableOpacity style={{}}>
+                            <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', width: hp(5), height: '100%', borderRadius: hp(20)}}>
+                                <Icon2 name="trash-2" size={hp(3)} color="white"/>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -66,10 +88,12 @@ export default function MyPage({ navigation, route }) {
             <View key={parseInt(keywordsOutput / 2)}>
                 <View style={{ flexDirection: 'row', }}>
                     <View id={keywordsOutput - 1} style={styles.news}>
-                        <Text style={{textAlign: 'center', flex: 5}}>#키워드 {keywordsOutput - 1 + 1}</Text>
+                        <View style={{width: wp(35) - hp(5)}}>
+                            <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>#키워드 {keywordsOutput - 1 + 1}</Text>
+                        </View>
                         <TouchableOpacity style={{flex: 1.5}}>
-                            <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', borderRadius: 20}}>
-                                <Text>삭제</Text> 
+                            <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', width: hp(5), height: '100%', borderRadius: hp(20)}}>
+                                <Icon2 name="trash-2" size={hp(3)} color="white"/>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -89,16 +113,23 @@ export default function MyPage({ navigation, route }) {
                 </TouchableOpacity>
             </View>
         </View>
-        <View style={{flex: 2, alignItems: "center", justifyContent: "center",}}>
-            <Image source={require('../assets/blank.png') } resizeMode="contain" style={{
-                    width: hp(20), height: hp(20), borderRadius: hp(20), overflow: "hidden"}}/>
+        <View style={{flex: 1.5, alignItems: "center", justifyContent: "center",}}>
+            <Image source={require('../assets/fly_whale.png') } resizeMode="contain" style={{width: wp(30), opacity: 0.8 }}/>
         </View>
-        <View style={{ flex: 0.5, alignItems: "center", justifyContent: "center"}}>
-            <TouchableOpacity onPress={goToStartPage}>
-                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-                    <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>로그아웃</Text>
-                </View>
-            </TouchableOpacity>
+        <View style={{ flex: 1.5, alignItems: "center", justifyContent: "center",}}>
+            <View style={{flex: 1}}/>
+            <View style={{flex: 2, alignItems: 'center', justifyContent: 'center',}}>
+                <Text style={{fontFamily: 'MapoPeacefull', fontSize: hp(2), }}>{String(testString)}</Text>
+                <Text style={{fontFamily: 'MapoPeacefull',}}>뉴스웨일을 통해 뉴스를 구독하세요!</Text>
+            </View>
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
+                <TouchableOpacity onPress={goToStartPage}>
+                    <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull', borderBottomColor: 'black', borderBottomWidth: 1,}}>
+                        로그아웃
+                    </Text>
+                </TouchableOpacity>
+            </View>
+            <View style={{flex: 1}}/>
         </View>
         <View style={{ flex: 3.5, alignItems: "center", justifyContent: "center" }}>
             <ScrollView style={{flex: 1}}>
@@ -126,11 +157,11 @@ export default function MyPage({ navigation, route }) {
 const styles = StyleSheet.create({
     news: {
         backgroundColor: 'white', 
-        width: wp(40), 
+        width: wp(35), 
         height: hp(5),
-        borderRadius: 20,
+        borderRadius: hp(20),
         overflow: 'hidden',
-        justifyContent: "center",
+        justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center'
     }
