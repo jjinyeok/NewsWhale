@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { 
     View, 
     Text, 
@@ -6,23 +6,20 @@ import {
     TouchableOpacity, 
     ScrollView,
     StyleSheet,
-    ImageBackground,
-    Alert
 } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+
+import Keywords from '../Component/Keywords';
+
 import Icon from 'react-native-vector-icons/AntDesign';
-import Icon2 from 'react-native-vector-icons/Feather';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 
 export default function MyPage({ navigation, route }) {
-    const keywords = [<View style={{height: hp(1.5)}} key={-1}/>];
-    let keywordsCount = 99;
-    let keywordsOutput = Math.min(100, keywordsCount);
 
     const [token, setToken] = useState("");
     const [testString, setTestString] = useState("");
@@ -53,56 +50,6 @@ export default function MyPage({ navigation, route }) {
         navigation.navigate('AddKeywords')
     }
 
-    for(let i = 0; i < parseInt(keywordsOutput / 2); i++) {
-        keywords.push(
-            <View key={i}>
-                <View style={{ flexDirection: 'row', height: hp(5)}}>
-                    <View id={i * 2} style={styles.news}>
-                        <View style={{width: wp(35) - hp(5)}}>
-                            <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>#키워드 {i * 2 + 1}</Text>
-                        </View>
-                        <TouchableOpacity style={{}}>
-                            <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', width: hp(5), height: '100%', borderRadius: hp(20)}}>
-                                <Icon2 name="trash-2" size={hp(3)} color="white"/>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{width: wp(10)}} />
-                    <View id={i * 2 + 1} style={styles.news}>
-                        <View style={{width: wp(35) - hp(5)}}>
-                            <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>#키워드 {i * 2 + 2}</Text>
-                        </View>
-                        <TouchableOpacity style={{}}>
-                            <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', width: hp(5), height: '100%', borderRadius: hp(20)}}>
-                                <Icon2 name="trash-2" size={hp(3)} color="white"/>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={{height: hp(1.5)}}/>
-            </View>
-        );
-    }
-    if (keywordsOutput % 2 == 1) {
-        keywords.push(
-            <View key={parseInt(keywordsOutput / 2)}>
-                <View style={{ flexDirection: 'row', }}>
-                    <View id={keywordsOutput - 1} style={styles.news}>
-                        <View style={{width: wp(35) - hp(5)}}>
-                            <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>#키워드 {keywordsOutput - 1 + 1}</Text>
-                        </View>
-                        <TouchableOpacity style={{flex: 1.5}}>
-                            <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', width: hp(5), height: '100%', borderRadius: hp(20)}}>
-                                <Icon2 name="trash-2" size={hp(3)} color="white"/>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={{height: hp(1.5)}}/>
-            </View>
-        );
-    }
-
     return (
         <View style={{flex: 1}}>
         <View style={{flex: 0.5}}/>
@@ -114,7 +61,7 @@ export default function MyPage({ navigation, route }) {
             </View>
         </View>
         <View style={{flex: 1.5, alignItems: "center", justifyContent: "center",}}>
-            <Image source={require('../assets/fly_whale.png') } resizeMode="contain" style={{width: wp(30), opacity: 0.8 }}/>
+            <Image source={require('../../assets/fly_whale.png') } resizeMode="contain" style={{width: wp(30), opacity: 0.8 }}/>
         </View>
         <View style={{ flex: 1.5, alignItems: "center", justifyContent: "center",}}>
             <View style={{flex: 1}}/>
@@ -131,11 +78,10 @@ export default function MyPage({ navigation, route }) {
             </View>
             <View style={{flex: 1}}/>
         </View>
-        <View style={{ flex: 3.5, alignItems: "center", justifyContent: "center" }}>
-            <ScrollView style={{flex: 1}}>
+        <View style={{ flex: 3.5, alignItems: "center", justifyContent: "center", }}>
+            <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
                 <View style={{alignItems: "center"}}>
-                    {keywords}
-                    {/* <Text>키워드를 추가해보세요</Text> */}
+                    <Keywords/>
                 </View>
             </ScrollView>
         </View>

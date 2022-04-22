@@ -70,7 +70,7 @@ export default function StartPage({navigation}) {
             <View style={styles.loginArea}>
                 <View style={{flex: 0.5}}/>
                 <View style={{flex: 1.5, alignItems: 'center', justifyContent: 'center'}}>
-                    <Image source={require('../assets/blue_square_logo.png') } resizeMode="contain" style={{width: wp(50)}}/>
+                    <Image source={require('../../assets/blue_square_logo.png') } resizeMode="contain" style={{width: wp(50)}}/>
                     {/* <Text style={styles.loginText}>News Whale</Text> */}
                 </View>
                 <View style={{flex: 0.5}}/>

@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import StartPage from './src/StartPage';
-import MainPage from './src/MainPage';
-import MyPage from './src/MyPage';
-import AddKeywordsPage from './src/AddKeywordsPage';
-import SignUpPage from './src/SignUpPage';
+import StartPage from './src/Page/StartPage';
+import MainPage from './src/Page/MainPage';
+import MyPage from './src/Page/MyPage';
+import AddKeywordsPage from './src/Page/AddKeywordsPage';
+import SignUpPage from './src/Page/SignUpPage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // ios Remote debugger 방지
@@ -29,10 +29,10 @@ export default function App() {
       }
     })
   }, [])
+
   return (
     <NavigationContainer>
-      <Stack.Navigator 
-        initialRouteName={(user === {}) ? "Main" : "Start"} screenOptions={{headerShown: false}}>
+      <Stack.Navigator initialRouteName={(user === {}) ? "Main" : "Start"} screenOptions={{headerShown: false}}>
         <Stack.Screen name="Start" component={StartPage}/>
         <Stack.Screen name="Main" component={MainPage}/>
         <Stack.Screen name="My" component={MyPage}/>
