@@ -1,51 +1,82 @@
-import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { 
+    View, 
+    Text, 
+    TextInput, 
+    TouchableOpacity, 
+    StyleSheet,
+    Alert
+} from 'react-native';
+
+// 화면 비율 맞추기 위한 lib
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+
+// react-native-icon 받아오기 위한 lib
+import Icon from 'react-native-vector-icons/AntDesign';
+
+// 로컬 저장소 (userId, token)
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// 추천 키워드 조회하기 (내부 Component)
+import RecommandKeywords from '../Component/RecommandKeywords';
 
+// 통신을 위해 사용하는 axios
+import axios from 'axios';
+
+// 서버 통신 주소
+import network from '../Static/network';
+const baseUrl = network();
+
+// 키워드 추가하기 페이지
+// 1. 추천 키워드 조회하기
 export default function AddKeywordsPage({ navigation }) {
+    
+
+    const [userId, setUserId] = useState("");
+    const [token, setToken] = useState("");
+    const [tokenGet, setTokenGet] = useState(false);
+    const [responseKeywords, setResponseKeywords] = useState("");
+    
     const [text, setText] = useState("");
     const goToMainPage = () => {
         navigation.navigate('Main')
     }
     const goToMyPage = () => {
-        navigation.navigate('My')
+        postKeyword();
     }
-    const recommendations = [];
-    // AsyncStorage.getItem('user', (err, result) => {
-    //     const user = JSON.parse(result);
-    //     alert(user.id + ' ' + user.password);
-    // })
 
+    useEffect(() => {
+        AsyncStorage.getItem('token', (err, result) => {
+            setUserId(JSON.parse(result).userId);
+            setToken(JSON.parse(result).token);
+            setTokenGet(true);
+            //console.log(JSON.parse(result).token);
+        });
+    }, [])
 
-    for(let i = 0; i < 5; i++) {
-        recommendations.push(
-            <View key={i}>
-                <View style={{ flexDirection: 'row', }}>
-                    <View id={i * 2} style={styles.recommendations}>
-                        <TouchableOpacity style={{flex: 1.5}}>
-                            <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', borderRadius: 20}}>
-                                <Text style={{fontFamily: 'MapoPeacefull'}}>키워드 {i * 2 + 1}</Text> 
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{width: wp(10)}} />
-                    <View id={i * 2 + 1} style={styles.recommendations}>
-                        <TouchableOpacity style={{flex: 1.5}}>
-                            <View style={{flex: 1, backgroundColor: 'skyblue', justifyContent: 'center', alignItems: 'center', borderRadius: 20}}>
-                                <Text style={{fontFamily: 'MapoPeacefull'}}>키워드 {i * 2 + 1 + 1}</Text> 
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={{height: hp(1.5)}}/>
-            </View>
-        );
+    const postKeyword = () => {
+        axios.post(`${baseUrl}/keywords`,
+        {
+            userId: userId,
+            keywordName: text
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }).then((response) => {
+            if(response.data.success) {
+                setTimeout(() => {
+                    navigation.navigate('My');
+                }, 500 );
+            } else {
+                Alert.alert('경고', '중복된 키워드를 입력하였습니다.', [{text: '확인'}]);
+            }
+        })
     }
 
     return (
@@ -86,7 +117,7 @@ export default function AddKeywordsPage({ navigation }) {
                     </View>
                     <View style={{flex: 3}}>
                         <View style={{alignItems: "center"}}>
-                            {recommendations}
+                            <RecommandKeywords/>
                         </View>
                     </View>
                     <View style={{flex: 1}}/>
@@ -96,16 +127,3 @@ export default function AddKeywordsPage({ navigation }) {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    recommendations: {
-        backgroundColor: 'skyblue', 
-        width: wp(40), 
-        height: hp(5),
-        borderRadius: 20,
-        overflow: 'hidden',
-        justifyContent: "center",
-        flexDirection: 'row',
-        alignItems: 'center'
-    }
-})

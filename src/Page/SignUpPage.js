@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
+import { useState } from 'react';
 import {
     StyleSheet,
     View,
@@ -14,75 +15,118 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+// react-native-icon 받아오기 위한 lib
+import Icon from 'react-native-vector-icons/AntDesign';
+
 // 통신을 위해 사용하는 axios
 import axios from 'axios';
 
 //여기에 현재 내 IP 주소(localhost나 127.0.0.1말고)를 주면 local 환경에서도 실험 가능
-const baseUrl = "http://192.168.219.114:8080";
+import network from '../Static/network';
+const baseUrl = network();
 
-import Icon from 'react-native-vector-icons/AntDesign';
-
+// 회원가입 페이지
+// 1. 회원가입
+// 2. 회원가입 아이디 중복 확인
 export default function SignUpPage({navigation}) {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordCheck, setPasswordCheck] = useState("");
-    const [nickname, setNickname] = useState("");
-    const [email, setEmail] = useState("");
+    
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordCheck, setPasswordCheck] = useState('');
+    const [email, setEmail] = useState('');
+    const [nickname, setNickname] = useState('');
     const [idCheckSuccess, setIdCheckSuccess] = useState(false);
 
+    // 시작 페이지 이동
     const goToStartPage = () => {
-        navigation.navigate('Start')
+        navigation.navigate('Start');
     }
 
-    // 회원가입 버튼 클릭
+    // 회원가입
     const signUp = async () => {
-        if(username == "" || !idCheckSuccess){
-            Alert.alert("경고", 
-                "아이디는 필수 항목입니다.",
+        
+        // warn1: 아이디 입력값이 없는 경우
+        if(username === '') {
+            Alert.alert('경고', 
+                '아이디는 필수 항목입니다.',
                 [ {text: '확인',}]);
             navigation.navigate('SignUp');
         }
-        else if(password == ""){
-            Alert.alert("경고", 
-                "비밀번호는 필수 항목입니다.",
-                [ {text: '확인',}]);
+
+        // warn2: 아이디 중복확인 안 한 경우
+        else if(!idCheckSuccess) {
+            Alert.alert('경고', 
+                '아이디 중복확인 해주세요.',
+                [ {text: '확인'} ]);
             navigation.navigate('SignUp');
         }
+
+        // warn3: 비밀번호 입력값이 없는 경우
+        else if(password === '') {
+            Alert.alert('경고', 
+                '비밀번호는 필수 항목입니다.',
+                [ {text: '확인'} ]);
+            navigation.navigate('SignUp');
+        }
+
+        // warn4: 비밀번호 !== 비밀번호 확인
         else if(password !== passwordCheck) {
-            Alert.alert("경고", 
-                "비밀번호와 비밀번호 확인이 일치하지 않습니다. 확인해주세요.",
-                [ {text: '확인',}]);
+            Alert.alert('경고', 
+                '비밀번호와 비밀번호 확인이 일치하지 않습니다. 확인해주세요.',
+                [ {text: '확인'} ]);
             navigation.navigate('SignUp');
         }
+
+        // warn5: 이메일 입력값이 없는 경우
+        else if(email === '') {
+            Alert.alert('경고',
+                '이메일은 필수 항목입니다.',
+                [ {text: '확인'} ]);
+            navigation.navigate('SignUp');
+        }
+
+        // 정상적 입력값 회원가입
         else {
-            const response = await axios.post(`${baseUrl}/auth/signup`, {
+            
+            // 입력값 서버로 전송 (username, password, email, nickname)
+            await axios.post(`${baseUrl}/auth/signup`, {
                 username: username,
                 password: password,
-                nickname: nickname,
                 email: email,
+                nickname: nickname,
+            })
+            
+            // 정상적 회원가입 완료
+            .then((response) => {
+                if(response.data.username === username) {
+                    Alert.alert('회원가입', '회원가입 완료!', [{text: '확인', onPress: ()=> {
+                        navigation.navigate('Start');
+                    }}])
+                }
             });
-            if(response.data.username === username) {
-                console.log(username)
-                navigation.navigate('Start');
-            }
         }
     }
 
-    // 아이디 중복확인 버튼 클릭
+    // 아이디 중복확인
     const idCheck = async () => {
-        console.log(username);
+        
+        // 입력값 서버로 전송 (username)
         const response = await axios.post(`${baseUrl}/auth/duplicatecheck`, {
             username: username
         });
+        
+        // 입력값 NOT IN 기존 아이디
         if(response.data === true) {
             Alert.alert("", 
             "이미 존재하는 아이디입니다. 다른 아이디를 선택해주세요.",
             [ {text: '확인',}]);
         }
+        
+        // 입력값 IN 기존 아이디
         else if(response.data === false) {
             Alert.alert("",
             "사용가능한 아이디입니다.",
-            [ {text: '확인',}])
+            [ {text: '확인',}]);
             setIdCheckSuccess(true);
         }
     }
@@ -90,20 +134,29 @@ export default function SignUpPage({navigation}) {
     return(
         <View style={{flex: 1}}>
             <View style={{flex: 0.5}}/>
+
+            {/* 시작페이지 이동 아이콘 */}
             <View style={{flex: 1, justifyContent: 'center'}}>
                 <View style={{marginLeft: '5%'}}>
                     <TouchableOpacity onPress={goToStartPage}>
-                        <Icon name="doubleleft" size={hp(5)} color="skyblue"/>
+                        <Icon name="doubleleft" size={wp(10)} color="skyblue"/>
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={styles.container}>
-                <View style={styles.signUpArea}>
-                <View style={{flex: 2, alignItems: 'center', justifyContent: 'center', backgroundColor: 'skyblue', width: wp(80)}}>
+            
+            {/* 가운데 정렬을 위한 컨테이너(기능 X) */}
+            <View style={{flex: 7.5, alignItems: 'center'}}>
+            {/* 회원가입 구역 */}
+            <View style={styles.signUpArea}>
+                
+                {/* 서비스 소개 */}
+                <View style={{flex: 2, alignItems: 'center', justifyContent: 'center'}}>
                     <Text style={styles.introduceText}>안녕하세요!</Text>
                     <Text style={styles.introduceText}>뉴스 구독 어플리케이션</Text> 
                     <Text style={styles.introduceText}>News Whale입니다.</Text>
                 </View>
+                
+                {/* 아이디 입력란 */}
                 <View style={{flex: 1}}>
                     <View style={{flex: 1, justifyContent: 'center'}}>
                         <Text style={styles.text}>아이디 *</Text>
@@ -119,6 +172,8 @@ export default function SignUpPage({navigation}) {
                         </TouchableOpacity>
                     </View>
                 </View>
+                
+                {/* 비밀번호 입력란 */}
                 <View style={{flex: 1}}>
                     <View style={{flex: 1, justifyContent: 'center'}}>
                         <Text style={styles.text}>비밀번호 *</Text>
@@ -131,6 +186,8 @@ export default function SignUpPage({navigation}) {
                         />
                     </View>
                 </View>
+
+                {/* 비밀번호 확인 입력란 */}
                 <View style={{flex: 1}}>
                     <View style={{flex: 1, justifyContent: 'center'}}>
                         <Text style={styles.text}>비밀번호 확인 *</Text>
@@ -143,17 +200,8 @@ export default function SignUpPage({navigation}) {
                         />
                     </View>
                 </View>
-                <View style={{flex: 1}}>
-                    <View style={{flex: 1, justifyContent: 'center'}}>
-                        <Text style={styles.text}>닉네임*</Text>
-                    </View>
-                    <View style={styles.passwordChecker}>
-                        <TextInput
-                            onChangeText={setNickname}
-                            style={styles.input}
-                        />
-                    </View>
-                </View>
+
+                {/* 이메일 입력란 */}
                 <View style={{flex: 1}}>
                     <View style={{flex: 1, justifyContent: 'center'}}>
                         <Text style={styles.text}>이메일*</Text>
@@ -165,20 +213,44 @@ export default function SignUpPage({navigation}) {
                         />
                     </View>
                 </View>
+
+                {/* 닉네임 입력란 */}
+                <View style={{flex: 1}}>
+                    <View style={{flex: 1, justifyContent: 'center'}}>
+                        <Text style={styles.text}>닉네임</Text>
+                    </View>
+                    <View style={styles.passwordChecker}>
+                        <TextInput
+                            onChangeText={setNickname}
+                            style={styles.input}
+                        />
+                    </View>
+                </View>
+
                 <View style={{flex: 1}}/>
+
+                {/* 회원가입 버튼 구역 */}
                 <View style={styles.signUpButtonArea}>
                     <TouchableOpacity onPress={signUp} style={styles.signUpButton}>
                         <Text style={styles.buttonText}>회원가입</Text>
                     </TouchableOpacity>
                 </View>
+
                 <View style={{flex: 1}}/>
-                </View>
             </View>
+            </View>
+            <View style={{flex: 1}}/>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    signUpArea: {
+        flex: 1,
+        backgroundColor: 'skyblue',
+        borderRadius: 20,
+        overflow: "hidden",
+    },
     text: {
         color: 'white',
         marginLeft: '5%',
@@ -189,17 +261,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'MapoPeacefull',
         fontSize: hp(2),
-    },
-    container: {
-        flex: 9, 
-        alignItems: 'center',
-    },
-    signUpArea: {
-        backgroundColor: 'skyblue',
-        height: hp(80),
-        width: wp(80),
-        borderRadius: 20,
-        overflow: "hidden",
     },
     idChecker: {
         flex: 2,

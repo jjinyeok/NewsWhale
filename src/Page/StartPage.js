@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import {
     StyleSheet,
@@ -18,45 +19,53 @@ import {
 // font 받아오기 위한 lib
 import * as Font from "expo-font";
 
-// Local Storage를 위한 AsyncStorage
+// 로컬 저장소 (userId, token)
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // 통신을 위해 사용하는 axios
 import axios from 'axios';
 
-//여기에 현재 내 IP 주소(localhost나 127.0.0.1말고)를 주면 local 환경에서도 실험 가능
-const baseUrl = "http://192.168.219.114:8080";
+// 서버 통신 주소
+import network from '../Static/network';
+const baseUrl = network();
 
+// 시작 페이지
+// 1. 로그인
 export default function StartPage({navigation}) {
+
     // input 값
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
     // isReady = true라면, Font를 불러왔음을 의미
     const [isReady, setIsReady] = useState(false);
 
-    const goToMainPage = async () => {
+    // 로그인 함수
+    // input: (username, password) -> output: JSON(userId, token)
+    const signIn = async () => {
         axios.post(`${baseUrl}/auth/signin`, {
             username: username,
-            password: password
+            password: password,
         }).then((response) => {
-            AsyncStorage.setItem('token', 
-                response.data.token
-            );
             console.log(response.data.token);
+            AsyncStorage.setItem('token', 
+                JSON.stringify(response.data)
+            );
             navigation.navigate('Main');
         }).catch((error) => {
             if(error.name === 'Error') {
                 Alert.alert('로그인 실패', '아이디와 비밀번호를 확인해주세요' , [{text: '확인'}]);
             }
-        })
+        });
     }
 
+    // 회원가입 페이지 이동
     const goToSignUpPage = () => {
         navigation.navigate('SignUp')
     }
-
+    
+    // 시작과 동시에 Font를 저장 -> 'MapoPeacefull"
     useEffect(async () => {
-        // 시작과 동시에 Font를 저장 -> 'MapoPeacefull"
         await Font.loadAsync({
             "MapoPeacefull": require("/Users/jjinyeok/Documents/news-whale/assets/fonts/MapoPeacefull.ttf"),
         });
@@ -64,61 +73,65 @@ export default function StartPage({navigation}) {
     }, []);
 
     return (
-        <View style={{flex: 1, alignItems: 'center'}}>
-        {isReady && ( //Font를 불러왔다면 화면을 띄움
-        <View style={styles.container}>
-            <View style={styles.loginArea}>
-                <View style={{flex: 0.5}}/>
-                <View style={{flex: 1.5, alignItems: 'center', justifyContent: 'center'}}>
-                    <Image source={require('../../assets/blue_square_logo.png') } resizeMode="contain" style={{width: wp(50)}}/>
-                    {/* <Text style={styles.loginText}>News Whale</Text> */}
-                </View>
-                <View style={{flex: 0.5}}/>
-                <View style={{flex: 1, flexDirection: "row", alignItems: 'center'}}>
-                    <Text style={styles.IDPWText}>ID</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={setUsername}
-                    />
-                </View>
-                <View style={{flex: 1, flexDirection: "row", alignItems: 'center'}}>
-                    <Text style={styles.IDPWText}>PW</Text>
-                    <TextInput
-                        secureTextEntry={true}
-                        style={styles.input}
-                        onChangeText={setPassword}
-                    />
-                </View>
-                <View style={{flex: 1.5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{flex: 1}}>
+            {isReady && ( //Font를 불러왔다면 화면을 띄움
+            <View style={styles.container}>
+                <View style={styles.loginArea}>
+                    <View style={{flex: 0.5}}/>
+                    {/* 로고 */}
+                    <View style={{flex: 1.5, alignItems: 'center', justifyContent: 'center'}}>
+                        <Image source={require('../../assets/blue_square_logo.png') } resizeMode="contain" style={{width: wp(50)}}/>
+                    </View>
+                    <View style={{flex: 0.5}}/>
+                    {/* 아이디 입력란 */}
+                    <View style={{flex: 1, flexDirection: "row", alignItems: 'center'}}>
+                        <Text style={styles.IDPWText}>ID</Text>
+                        <TextInput
+                            style={styles.inputText}
+                            onChangeText={setUsername}
+                        />
+                    </View>
+                    {/* 패스워드 입력란 */}
+                    <View style={{flex: 1, flexDirection: "row", alignItems: 'center'}}>
+                        <Text style={styles.IDPWText}>PW</Text>
+                        <TextInput
+                            secureTextEntry={true}
+                            style={styles.inputText}
+                            onChangeText={setPassword}
+                        />
+                    </View>
+                    {/* 아이디/비밀번호 찾기 | 회원가입 */}
+                    <View style={{flex: 1.5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                        {/* 아이디/비밀번호 찾기 */}
                         <TouchableOpacity style={{alignItems: 'flex-end', justifyContent: 'center', marginRight: '5%'}}>
-                            <Text style={styles.findIDPWText}>아이디/비밀번호 찾기</Text>
+                            <Text style={styles.smallText}>아이디/비밀번호 찾기</Text>
                         </TouchableOpacity>
                         <Text style={{fontFamily: 'MapoPeacefull', color: 'white'}}>|</Text>
+                        {/* 회원가입 */}
                         <TouchableOpacity style={{alignItems: 'flex-start', justifyContent: 'center', marginLeft: '5%'}} onPress={goToSignUpPage}>
-                            <Text style={styles.findIDPWText}>회원가입</Text>
+                            <Text style={styles.smallText}>회원가입</Text>
                         </TouchableOpacity>
-                </View>
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    <TouchableOpacity style={styles.loginButton} onPress={goToMainPage}>
-                        <Text style={styles.buttonText}>로그인</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{flex: 0.5}}/>
-                <View style={{flex: 3, justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
-                    <TouchableOpacity style={styles.signUpButton}>
-                        <Text style={styles.buttonText}>네이버로 로그인</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.signUpButton}>
-                        <Text style={styles.buttonText}>카카오로 로그인</Text>
-                    </TouchableOpacity>
-                    {/* <TouchableOpacity style={styles.signUpButton} onPress={goToSignUpPage}>
-                        <Text style={styles.buttonText}>회원가입하러 가기</Text>
-                    </TouchableOpacity> */}
-                    <View style={{flex: 1}}/>
+                    </View>
+                    {/* 로그인 버튼: 성공 -> 메인페이지 */}
+                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <TouchableOpacity style={styles.loginButton} onPress={signIn}>
+                            <Text style={styles.buttonText}>로그인</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{flex: 0.5}}/>
+                    {/* SNS 로그인 */}
+                    <View style={{flex: 3, justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+                        <TouchableOpacity style={styles.snsSignUpButton}>
+                            <Text style={styles.buttonText}>네이버로 로그인</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.snsSignUpButton}>
+                            <Text style={styles.buttonText}>카카오로 로그인</Text>
+                        </TouchableOpacity>
+                        <View style={{flex: 1}}/>
+                    </View>
                 </View>
             </View>
-        </View>
-        )}
+            )}
         </View>
     );
 };
@@ -134,14 +147,13 @@ const styles = StyleSheet.create({
         height: hp(60),
         width: wp(80),
         borderRadius: 20,
-        overflow: "hidden",
+        overflow: 'hidden',
     },
-    input: {
+    inputText: {
         flex: 3,
         height: '80%',
         backgroundColor: 'white',
         borderRadius: 20,
-        //width: '60%',
         marginRight: '5%',
         paddingLeft: '5%',
         fontFamily: 'MapoPeacefull'
@@ -153,23 +165,22 @@ const styles = StyleSheet.create({
         fontFamily: 'MapoPeacefull', 
         fontWeight: 'bold'
     },
-    buttonText: {
-        fontSize: 24 , 
-        fontFamily: 'MapoPeacefull',
-    },
     IDPWText: {
         flex: 1, 
         fontSize: 30,
-        //marginLeft: '5%', 
         color: 'white', 
         fontFamily: 'MapoPeacefull',
         textAlign: 'center',
     },
-    findIDPWText: {
+    smallText: {
         color: 'white', 
         fontFamily: 'MapoPeacefull'
     },
-    signUpButton: {
+    buttonText: {
+        fontSize: 24 , 
+        fontFamily: 'MapoPeacefull',
+    },
+    snsSignUpButton: {
         flex: 1, 
         height: '60%', 
         width: '90%', 
