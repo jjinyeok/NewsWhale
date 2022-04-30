@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
 import { 
     View, 
     Text, 
@@ -21,15 +20,12 @@ import Icon from 'react-native-vector-icons/AntDesign';
 // 등록한 키워드 조회하기 (내부 Component)
 import Keywords from '../Component/Keywords';
 
-// 서버 통신 주소
-import network from '../Static/network';
-const baseUrl = network();
-
 // 마이페이지
-// 1. 등록한 키워드 조회하기
-// 2. 등록한 키워드 삭제하기
+// 등록한 키워드 조회하기
+// 등록한 키워드 삭제하기
 export default function MyPage({ navigation }) {
 
+    // To-do: 로그아웃 기능 구현해야함
     const goToStartPage = async () => {
         navigation.navigate('Start');
     }
@@ -43,55 +39,64 @@ export default function MyPage({ navigation }) {
     return (
         <View style={{flex: 1}}>
             <View style={{flex: 0.5}}/>
+            
+            {/* 메인페이지 이동 아이콘 */}
             <View style={{flex: 1, justifyContent: 'center'}}>
                 <View style={{marginLeft: '5%'}}>
                     <TouchableOpacity onPress={goToMainPage}>
-                        <Icon name="doubleleft" size={wp(10)} color="skyblue"/>
+                        <Icon name='doubleleft' size={wp(10)} color='skyblue'/>
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={{flex: 1.5, alignItems: "center", justifyContent: "center",}}>
-                <Image source={require('../../assets/fly_whale.png') } resizeMode="contain" style={{width: wp(30), opacity: 0.8 }}/>
+            
+            {/* 뉴스웨일 로고 이미지 */}
+            <View style={{flex: 1.5, alignItems: 'center', justifyContent: 'center'}}>
+                <Image source={require('../../assets/fly_whale.png') } resizeMode='contain' style={{width: wp(30), opacity: 0.8 }}/>
             </View>
-            <View style={{ flex: 1.5, alignItems: "center", justifyContent: "center",}}>
+            
+            {/* 코멘트 */}
+            <View style={{flex: 1.5, alignItems: 'center', justifyContent: 'center'}}>
                 <View style={{flex: 1}}/>
-                <View style={{flex: 2, alignItems: 'center', justifyContent: 'center',}}>
-                    <Text style={{fontFamily: 'MapoPeacefull', fontSize: hp(2), }}>{}</Text>
-                    <Text style={{fontFamily: 'MapoPeacefull',}}>뉴스웨일을 통해 뉴스를 구독하세요!</Text>
+                
+                {/* 코멘트 */}
+                <View style={{flex: 2, alignItems: 'center', justifyContent: 'center'}}>
+                    <Text style={styles.commentText}>뉴스웨일을 통해 뉴스를 구독하세요!</Text>
                 </View>
-                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
+                
+                {/* 로그아웃 */}
+                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                     <TouchableOpacity onPress={goToStartPage}>
-                        <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull', borderBottomColor: 'black', borderBottomWidth: 1,}}>
+                        <Text style={styles.signOutText}>
                             로그아웃
                         </Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex: 1}}/>
             </View>
-            <View style={{ flex: 3, alignItems: "center", justifyContent: "center", }}>
+            
+            {/* 등록된 키워드 리스트 컴포넌트 */}
+            <View style={{flex: 3, alignItems: 'center', justifyContent: 'center'}}>
                 <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-                    <View style={{alignItems: "center"}}>
+                    <View style={{alignItems: 'center'}}>
                         <Keywords navigation={navigation}/>
                     </View>
                 </ScrollView>
             </View>
-            <View style={{ flex: 1, alignItems: "center", justifyContent: "center", }}>
-                <TouchableOpacity style={{
-                    backgroundColor: 'skyblue', width: wp(80), height: wp(15), overflow: "hidden", borderRadius: 20, }} 
-                    onPress={goToMainPage}
-                >
-                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-                        <Text style={{textAlign: 'center', fontSize: 24, fontFamily: 'MapoPeacefull'}}>메인 페이지에서 뉴스보기</Text>
+            
+            {/* 버튼1: 메인 페이지에서 뉴스보기 */}
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                <TouchableOpacity style={styles.button} onPress={goToMainPage}>
+                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={styles.buttonText}>메인 페이지에서 뉴스보기</Text>
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={{ flex: 1, alignItems: "center", justifyContent: "center", }}>
-                <TouchableOpacity style={{
-                    backgroundColor: 'skyblue', width: wp(80), height: wp(15), overflow: "hidden", borderRadius: 20, }} 
-                    onPress={goToAddKeywordsPage}
-                >
-                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-                        <Text style={{textAlign: 'center', fontSize: 24, fontFamily: 'MapoPeacefull'}}>키워드 추가하기</Text>
+            
+            {/* 버튼2: 키워드 추가하기 */}
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                <TouchableOpacity style={styles.button} onPress={goToAddKeywordsPage}>
+                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={styles.buttonText}>키워드 추가하기</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -101,14 +106,26 @@ export default function MyPage({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    news: {
-        backgroundColor: 'white', 
-        width: wp(35), 
-        height: hp(5),
-        borderRadius: hp(20),
-        overflow: 'hidden',
-        justifyContent: 'space-between',
-        flexDirection: 'row',
-        alignItems: 'center'
-    }
+    button: {
+        backgroundColor: 'skyblue', 
+        width: wp(80), 
+        height: hp(7), 
+        overflow: 'hidden', 
+        borderRadius: 20,
+    },
+    buttonText: {
+        textAlign: 'center', 
+        fontSize: 24, 
+        fontFamily: 'MapoPeacefull',
+    },
+    commentText: {
+        fontFamily: 'MapoPeacefull', 
+        fontSize: hp(2),
+    }, 
+    signOutText: {
+        textAlign: 'center', 
+        fontFamily: 'MapoPeacefull', 
+        borderBottomColor: 'black', 
+        borderBottomWidth: 1,
+    },
 });

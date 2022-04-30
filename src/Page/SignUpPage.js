@@ -117,15 +117,15 @@ export default function SignUpPage({navigation}) {
         
         // 입력값 NOT IN 기존 아이디
         if(response.data === true) {
-            Alert.alert("", 
-            "이미 존재하는 아이디입니다. 다른 아이디를 선택해주세요.",
+            Alert.alert('경고', 
+            '이미 존재하는 아이디입니다. 다른 아이디를 선택해주세요.',
             [ {text: '확인',}]);
         }
         
         // 입력값 IN 기존 아이디
         else if(response.data === false) {
-            Alert.alert("",
-            "사용가능한 아이디입니다.",
+            Alert.alert('확인',
+            '사용가능한 아이디입니다.',
             [ {text: '확인',}]);
             setIdCheckSuccess(true);
         }
@@ -139,7 +139,7 @@ export default function SignUpPage({navigation}) {
             <View style={{flex: 1, justifyContent: 'center'}}>
                 <View style={{marginLeft: '5%'}}>
                     <TouchableOpacity onPress={goToStartPage}>
-                        <Icon name="doubleleft" size={wp(10)} color="skyblue"/>
+                        <Icon name='doubleleft' size={wp(10)} color='skyblue'/>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'skyblue',
         borderRadius: 20,
-        overflow: "hidden",
+        overflow: 'hidden',
     },
     text: {
         color: 'white',

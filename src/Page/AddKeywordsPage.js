@@ -12,7 +12,7 @@ import {
 // 화면 비율 맞추기 위한 lib
 import {
     widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
+    heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
 // react-native-icon 받아오기 위한 lib
@@ -36,12 +36,12 @@ const baseUrl = network();
 export default function AddKeywordsPage({ navigation }) {
     
 
-    const [userId, setUserId] = useState("");
-    const [token, setToken] = useState("");
+    const [userId, setUserId] = useState('');
+    const [token, setToken] = useState('');
     const [tokenGet, setTokenGet] = useState(false);
-    const [responseKeywords, setResponseKeywords] = useState("");
+    const [responseKeywords, setResponseKeywords] = useState('');
     
-    const [text, setText] = useState("");
+    const [text, setText] = useState('');
     const goToMainPage = () => {
         navigation.navigate('Main')
     }
@@ -85,7 +85,7 @@ export default function AddKeywordsPage({ navigation }) {
             <View style={{flex: 1, justifyContent: 'center'}}>
                 <View style={{marginLeft: '5%'}}>
                     <TouchableOpacity onPress={goToMainPage}>
-                        <Icon name="doubleleft" size={hp(5)} color="skyblue"/>
+                        <Icon name='doubleleft' size={hp(5)} color='skyblue'/>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -96,13 +96,13 @@ export default function AddKeywordsPage({ navigation }) {
                         style={{width: wp(80), height: hp(7), borderColor: 'black', borderWidth: 1, fontSize: 20, backgroundColor:'white',fontFamily: 'MapoPeacefull', paddingLeft: '5%',}}
                         onChangeText={setText}
                         value={text}
-                        placeholder="검색어를 입력해주세요"
-                        keyboardType="ascii-capable"
+                        placeholder='검색어를 입력해주세요'
+                        keyboardType='ascii-capable'
                     />
                 </View>
                 <View style={{flex: 2, alignItems: 'center', justifyContent: 'center',}}>
                     <TouchableOpacity style={{
-                        backgroundColor: 'skyblue', width: wp(80), height: hp(7), overflow: "hidden", borderRadius: 20, }} 
+                        backgroundColor: 'skyblue', width: wp(80), height: hp(7), overflow: 'hidden', borderRadius: 20, }} 
                         onPress={goToMyPage}
                     >
                         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
@@ -116,7 +116,7 @@ export default function AddKeywordsPage({ navigation }) {
                         <Text style={{fontSize: 16, fontFamily: 'MapoPeacefull'}}>추천 키워드</Text>
                     </View>
                     <View style={{flex: 3}}>
-                        <View style={{alignItems: "center"}}>
+                        <View style={{alignItems: 'center'}}>
                             <RecommandKeywords/>
                         </View>
                     </View>

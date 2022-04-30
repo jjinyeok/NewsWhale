@@ -11,7 +11,7 @@ import {
 // 화면 비율 맞추기 위한 lib
 import {
     widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
+    heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
 // react-native-icon 받아오기 위한 lib
@@ -24,7 +24,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 // 마이페이지로 이동했을 시 useIsFocused = true;
-import { useIsFocused } from '@react-navigation/native'
+import { useIsFocused } from '@react-navigation/native';
 
 // 서버 통신 주소
 import network from '../Static/network';
@@ -32,19 +32,20 @@ const baseUrl = network();
 
 export default function Keywords({navigation}) {
 
+    // 현재 페이지 사용여부 확인
     const isFocused = useIsFocused();
 
     const [userId, setUserId] = useState('');
     const [token, setToken] = useState('');
-    const [responseKeywords, setResponseKeywords] = useState([]);
-    const [keywordCount, setKeywordCount] = useState(0);
 
-    // const location = Location;
-
+    // 로컬 저장소로부터 토근 가져오기
     AsyncStorage.getItem('token', (err, result) => {
         setUserId(JSON.parse(result).userId);
         setToken(JSON.parse(result).token);
     });
+
+    const [responseKeywords, setResponseKeywords] = useState([]);
+    const [keywordCount, setKeywordCount] = useState(0);
 
     useEffect(() => {
         axios.get(`${baseUrl}/keywords?userId=${userId}`, {
