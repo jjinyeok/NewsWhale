@@ -97,7 +97,6 @@ export default function AddKeywordsPage({ navigation }) {
                         onChangeText={setText}
                         value={text}
                         placeholder='검색어를 입력해주세요'
-                        keyboardType='ascii-capable'
                     />
                 </View>
                 <View style={{flex: 2, alignItems: 'center', justifyContent: 'center',}}>
@@ -112,7 +111,7 @@ export default function AddKeywordsPage({ navigation }) {
                 </View>
                 <View style={{flex: 1}}/>
                 <View style={{flex: 5}}>
-                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                    {/* <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={{fontSize: 16, fontFamily: 'MapoPeacefull'}}>추천 키워드</Text>
                     </View>
                     <View style={{flex: 3}}>
@@ -120,7 +119,7 @@ export default function AddKeywordsPage({ navigation }) {
                             <RecommandKeywords/>
                         </View>
                     </View>
-                    <View style={{flex: 1}}/>
+                    <View style={{flex: 1}}/> */}
                 </View>
                 <View style={{flex: 3}}/>
             </View>
