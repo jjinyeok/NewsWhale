@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { 
     View, 
     Text, 
@@ -35,6 +36,8 @@ export default function MyPage({ navigation }) {
     const goToAddKeywordsPage = () => {
         navigation.navigate('AddKeywords');
     }
+
+    const [loading, setLoading] = useState(true);
 
     return (
         <View style={{flex: 1}}>
@@ -78,29 +81,43 @@ export default function MyPage({ navigation }) {
             <View style={{flex: 3, alignItems: 'center', justifyContent: 'center'}}>
                 <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
                     <View style={{alignItems: 'center'}}>
-                        <Keywords navigation={navigation}/>
+                        {loading ? 
+                        <Keywords navigation={navigation} setLoading={setLoading}/> :
+                        <View style={{flex: 1, }}>
+                            <Text>로딩 중...</Text>    
+                        </View>}
                     </View>
                 </ScrollView>
             </View>
             
             {/* 버튼1: 메인 페이지에서 뉴스보기 */}
+            {loading ? 
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity style={styles.button} onPress={goToMainPage}>
                     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={styles.buttonText}>메인 페이지에서 뉴스보기</Text>
                     </View>
                 </TouchableOpacity>
+            </View> :
+            <View style={{flex: 1, }}>
+                
             </View>
+            }
             
             {/* 버튼2: 키워드 추가하기 */}
+            {loading ? 
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity style={styles.button} onPress={goToAddKeywordsPage}>
                     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={styles.buttonText}>키워드 추가하기</Text>
                     </View>
                 </TouchableOpacity>
+            </View> :
+            <View style={{flex: 1, }}>
+                
             </View>
-            <View style={{flex: 0.5}}/>
+            }
+            <View style={{flex: 0.5}}/> 
         </View>
     );
 }

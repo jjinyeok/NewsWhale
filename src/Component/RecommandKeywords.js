@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     recommendations: {
         backgroundColor: 'skyblue', 
         width: wp(40), 
-        height: hp(5),
+        height: hp(4),
         borderRadius: 20,
         overflow: 'hidden',
         justifyContent: "center",

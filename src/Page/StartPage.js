@@ -74,6 +74,7 @@ export default function StartPage({navigation}) {
 
     return (
         <View style={{flex: 1}}>
+            <View style={{flex: 1.5}}/>
             {isReady && ( //Font를 불러왔다면 화면을 띄움
             <View style={styles.container}>
                 <View style={styles.loginArea}>
@@ -140,13 +141,14 @@ export default function StartPage({navigation}) {
                 </View>
             </View>
             )}
+            <View style={{flex: 1}}/>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, 
+        flex: 7.5,
         alignItems: 'center',
         justifyContent: 'center',
     },

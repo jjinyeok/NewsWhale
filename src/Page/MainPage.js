@@ -55,28 +55,30 @@ export default function MainPage({ navigation }) {
         setToken(JSON.parse(result).token);
     });
 
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     // token을 받아오거나, 현재 페이지로 이동했을 때, responseData GET
     // responseData: 1. count (받아온 기사 개수), 2. newsList (받아온 기사 리스트)
     useEffect(() => {
+        setLoading(false);
         axios.get(`${baseUrl}/article?userId=${userId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
         }).then((response) => {
             setResponseData(response.data);
-            setLoading(true);
         }).catch((e)=>{
             console.log(e);
+        }).finally(()=>{
+            setLoading(true);
         });
     }, [isFocused, token]);
 
-    const count = Math.min(100, responseData.count);
+    const count = Math.min(300, responseData.count);
 
     // 마이 페이지 이동
-    const goToMyPage = () => {
-        navigation.navigate("My");
+    const goToMyPage = async () => {
+        await navigation.navigate("My");
         setLoading(false);
     }
 
@@ -85,30 +87,29 @@ export default function MainPage({ navigation }) {
             {loading ? (
                 // 로딩 이후
                 <View style={{flex: 1}}>
-                <View style={{flex: 0.5, }}/>
-                {/* 마이페이지 이동 아이콘 */}
-                <View style={{flex: 1, flexDirection: 'row', alignItems: "center",}}>
-                    <TouchableOpacity style={styles.iconContainer} onPress={goToMyPage}>
-                        <Icon name='home' size={wp(10)} color={'skyblue'}></Icon>
-                    </TouchableOpacity>
-                </View>
-                
-                {/* 뉴스 리스트 컴포넌트 */}
-                <View style={{flex: 8, alignItems: 'center', alignContent: 'center',}}>
-                    <View style={{flex: 0.5}}>
-                        <Text style={{fontFamily: 'MapoPeacefull'}}>현재 {count}개의 최신 뉴스가 등록되어 있습니다.</Text>
+                    <View style={{flex: 0.5}}/>
+                    {/* 마이페이지 이동 아이콘 */}
+                    <View style={{flex: 1, flexDirection: 'row', alignItems: "center",}}>
+                        <TouchableOpacity style={styles.iconContainer} onPress={goToMyPage}>
+                            <Icon name='home' size={wp(10)} color={'skyblue'}></Icon>
+                        </TouchableOpacity>
                     </View>
-                    <View style={{flex: 9.5}}>
-                    <ScrollView style={styles.newsArea} showsVerticalScrollIndicator={false}>
-                        <News navigation={navigation} responseData={responseData} setLoading={setLoading}/>
-                    </ScrollView>
+                    {/* 뉴스 리스트 컴포넌트 */}
+                    <View style={{flex: 9, alignItems: 'center', alignContent: 'center'}}>
+                        <View style={{flex: 0.25, justifyContent: 'flex-end'}}>
+                            <Text style={{fontFamily: 'MapoPeacefull'}}>현재 {count}개의 최신 뉴스가 등록되어 있습니다.</Text>
+                        </View>
+                        <View style={{flex: 9.5}}>
+                        <ScrollView style={styles.newsArea} showsVerticalScrollIndicator={false}>
+                            <News navigation={navigation} responseData={responseData} setLoading={setLoading}/>
+                        </ScrollView>
+                        </View>
                     </View>
-                </View>
-                <View style={{flex: 0.5}}/>
+                    <View style={{flex: 0.5}}/>
                 </View>
                 ) :
-                // 로딩 중 
-                (<LoadingPage/>)
+                // 로딩 중
+                <LoadingPage/>
             }
         </View>
     );

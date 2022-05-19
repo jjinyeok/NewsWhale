@@ -18,8 +18,9 @@ import {
 export default function News({navigation, responseData, setLoading}) {
 
     // 키워드 추가하기 페이지로 이동 함수
-    const goToAddKeywordsPage = () => {
-        navigation.navigate('AddKeywords');
+    const goToAddKeywordsPage = async () => {
+        await navigation.navigate('AddKeywords');
+        setLoading(false);
     }
 
     // 뉴스 기사로 이동 함수
@@ -32,7 +33,7 @@ export default function News({navigation, responseData, setLoading}) {
         await Linking.openURL(mediaUrl);
     }
 
-    const count = Math.min(100, responseData.count);
+    const count = Math.min(300, responseData.count);
 
     // 뉴스 리스트 (newArea 내부)
     const newsList = [<View key={-1} style={{height: hp(2)}}/>];
@@ -58,7 +59,7 @@ export default function News({navigation, responseData, setLoading}) {
         for(let i = 0; i < count; i++) {
             if (i % 4 === 0 && i !== 0) {
                 newsList.push(
-                    <View key={101 + i / 5} style={styles.addKeywordContainer}>
+                    <View key={301 + i / 5} style={styles.addKeywordContainer}>
                         <Text style={{fontFamily: 'MapoPeacefull'}}>더 많은 뉴스를 찾아보고 싶으시다면?</Text>
                         <TouchableOpacity style={styles.newsOnAddKeywordButton} onPress={goToAddKeywordsPage}>
                             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
@@ -134,7 +135,7 @@ export default function News({navigation, responseData, setLoading}) {
         
         // 뉴스 리스트 마지막 키워드 추가하기 버튼 생성
         newsList.push(
-            <View key={100} style={styles.addKeywordContainer}>
+            <View key={300} style={styles.addKeywordContainer}>
                 <Text style={{fontFamily: 'MapoPeacefull'}}>더 많은 뉴스를 찾아보고 싶으시다면?</Text>
                 <TouchableOpacity style={styles.newsOnAddKeywordButton} onPress={goToAddKeywordsPage}>
                     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>

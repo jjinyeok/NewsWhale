@@ -30,7 +30,7 @@ import { useIsFocused } from '@react-navigation/native';
 import network from '../Static/network';
 const baseUrl = network();
 
-export default function Keywords({navigation}) {
+export default function Keywords({navigation, setLoading}) {
 
     // 현재 페이지 사용여부 확인
     const isFocused = useIsFocused();
@@ -48,6 +48,7 @@ export default function Keywords({navigation}) {
     const [keywordCount, setKeywordCount] = useState(0);
 
     useEffect(() => {
+        setLoading(true);
         axios.get(`${baseUrl}/keywords?userId=${userId}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -57,6 +58,8 @@ export default function Keywords({navigation}) {
             setResponseKeywords(response.data.keywordName);
         }).catch((e) => {
             console.log(e)
+        }).finally(()=>{
+            setLoading(true);
         });
     }, [isFocused, token]);
 
@@ -80,13 +83,15 @@ export default function Keywords({navigation}) {
                                 <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>{responseKeywords[i * 2]}</Text>
                             </View>
                             <TouchableOpacity onPress={() => {
+                                setLoading(false);
                                 Alert.alert(
                                     '확인', 
-                                    `정말 ${responseKeywords[i * 2]}를 삭제할까요?`,
+                                    `정말 '${responseKeywords[i * 2]}' 키워드를 삭제할까요?`,
                                     [{
                                         text: '취소',
-                                        onPress: () => {
-                                            navigation.navigate('My');
+                                        onPress: async () => {
+                                            await navigation.navigate('My');
+                                            setLoading(true);
                                         }
                                     },
                                     {
@@ -97,13 +102,7 @@ export default function Keywords({navigation}) {
                                                     Authorization: `Bearer ${token}`,
                                                 },
                                             });
-                                            setTimeout(() => {
-                                                navigation.reset({
-                                                    routes: [{
-                                                        name: 'My',
-                                                    }]
-                                                });
-                                            }, 500);
+                                            setLoading(true);
                                         }
                                     }]
                                 );
@@ -119,30 +118,26 @@ export default function Keywords({navigation}) {
                                 <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>{responseKeywords[i * 2 + 1]}</Text>
                             </View>
                             <TouchableOpacity onPress={() => {
+                                setLoading(false);
                                 Alert.alert(
                                     '확인', 
-                                    `정말 ${responseKeywords[i * 2 + 1]}를 삭제할까요?`,
+                                    `정말 '${responseKeywords[i * 2 + 1]}' 키워드를 삭제할까요?`,
                                     [{
                                         text: '취소',
-                                        onPress: () => {
-                                            navigation.navigate('My');
+                                        onPress: async () => {
+                                            await navigation.navigate('My');
+                                            setLoading(true);
                                         }
                                     },
                                     {
                                         text: '삭제하기',
-                                        onPress: () => {
-                                            axios.delete(`${baseUrl}/keywords?userId=${String(userId)}&keywordName=${responseKeywords[i * 2 + 1]}`, {
+                                        onPress: async () => {
+                                            await axios.delete(`${baseUrl}/keywords?userId=${String(userId)}&keywordName=${responseKeywords[i * 2 + 1]}`, {
                                                 headers: {
                                                     Authorization: `Bearer ${token}`,
                                                 },
                                             });
-                                            setTimeout(() => {
-                                                navigation.reset({
-                                                    routes: [{
-                                                        name: 'My',
-                                                    }]
-                                                });
-                                            }, 500);
+                                            setLoading(true);
                                         }
                                     }]
                                 );
@@ -166,30 +161,26 @@ export default function Keywords({navigation}) {
                                 <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>{responseKeywords[keywordCount - 1]}</Text>
                             </View>
                             <TouchableOpacity style={{flex: 1.5}} onPress={() => {
+                                setLoading(false);
                                 Alert.alert(
                                     '확인', 
-                                    `정말 ${responseKeywords[keywordCount - 1]}를 삭제할까요?`,
+                                    `정말 '${responseKeywords[keywordCount - 1]}' 키워드를 삭제할까요?`,
                                     [{
                                         text: '취소',
-                                        onPress: () => {
-                                            navigation.navigate('My');
+                                        onPress: async () => {
+                                            await navigation.navigate('My');
+                                            setLoading(true);
                                         }
                                     },
                                     {
                                         text: '삭제하기',
-                                        onPress: () => {
-                                            axios.delete(`${baseUrl}/keywords?userId=${String(userId)}&keywordName=${responseKeywords[keywordCount - 1]}`, {
+                                        onPress: async () => {
+                                            await axios.delete(`${baseUrl}/keywords?userId=${String(userId)}&keywordName=${responseKeywords[keywordCount - 1]}`, {
                                                 headers: {
                                                     Authorization: `Bearer ${token}`,
                                                 },
                                             });
-                                            setTimeout(() => {
-                                                navigation.reset({
-                                                    routes: [{
-                                                        name: 'My',
-                                                    }]
-                                                });
-                                            }, 500);
+                                            setLoading(true);
                                         }
                                     }]
                                 );
