@@ -7,6 +7,7 @@ import {
     TouchableOpacity, 
     ScrollView,
     StyleSheet,
+    ActivityIndicator,
 } from 'react-native';
 
 // 화면 비율 맞추기 위한 lib
@@ -20,6 +21,19 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 // 등록한 키워드 조회하기 (내부 Component)
 import Keywords from '../Component/Keywords';
+
+// 로컬 저장소 (userId, token)
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// 통신을 위해 사용하는 axios
+import axios from 'axios';
+
+// 마이페이지로 이동했을 시 useIsFocused = true;
+import { useIsFocused } from '@react-navigation/native';
+
+// 서버 통신 주소
+import network from '../Static/network';
+const baseUrl = network();
 
 // 마이페이지
 // 등록한 키워드 조회하기
@@ -37,7 +51,37 @@ export default function MyPage({ navigation }) {
         navigation.navigate('AddKeywords');
     }
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+
+    const isFocused = useIsFocused();
+
+    const [userId, setUserId] = useState('');
+    const [token, setToken] = useState('');
+    
+    // 로컬 저장소로부터 토근 가져오기
+    AsyncStorage.getItem('token', (err, result) => {
+        setUserId(JSON.parse(result).userId);
+        setToken(JSON.parse(result).token);
+    });
+
+    const [responseKeywords, setResponseKeywords] = useState([]);
+    const [keywordCount, setKeywordCount] = useState(0);
+    const [afterDelete, setAfterDelete] = useState(0);
+
+    useEffect(() => {
+        setLoading(false);
+        axios.get(`${baseUrl}/keywords?userId=${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }).then((response) => {
+            setKeywordCount(parseInt(response.data.count));
+            setResponseKeywords(response.data.keywordName);
+            setLoading(true);
+        }).catch((e) => {
+            console.log(e)
+        });
+    }, [isFocused, token, afterDelete]);
 
     return (
         <View style={{flex: 1}}>
@@ -82,9 +126,18 @@ export default function MyPage({ navigation }) {
                 <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
                     <View style={{alignItems: 'center'}}>
                         {loading ? 
-                        <Keywords navigation={navigation} setLoading={setLoading}/> :
-                        <View style={{flex: 1, }}>
-                            <Text>로딩 중...</Text>    
+                        <Keywords 
+                            navigation={navigation} 
+                            setLoading={setLoading} 
+                            responseKeywords={responseKeywords} 
+                            keywordCount={keywordCount}
+                            userId={userId}
+                            token={token}
+                            afterDelete={afterDelete}
+                            setAfterDelete={setAfterDelete}/> :
+                        <View style={{flex: 1}}>
+                            <Text style={{fontFamily: 'MapoPeacefull', marginTop: hp(10)}}>로딩 중...</Text>
+                            <ActivityIndicator size="large" color='blue'/>
                         </View>}
                     </View>
                 </ScrollView>

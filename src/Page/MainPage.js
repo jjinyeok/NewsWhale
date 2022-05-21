@@ -67,10 +67,9 @@ export default function MainPage({ navigation }) {
             }
         }).then((response) => {
             setResponseData(response.data);
+            setLoading(true);
         }).catch((e)=>{
             console.log(e);
-        }).finally(()=>{
-            setLoading(true);
         });
     }, [isFocused, token]);
 

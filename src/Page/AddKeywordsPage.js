@@ -74,9 +74,9 @@ export default function AddKeywordsPage({ navigation }) {
                 }
             }).then((response) => {
                 if(response.data.success) {
-                    setTimeout(() => {
-                        navigation.navigate('My');
-                    }, 500 );
+                    //setTimeout(() => {
+                    navigation.navigate('My');
+                    //}, 500 );
                 } else {
                     Alert.alert('경고', '중복된 키워드를 입력하였습니다.', [{text: '확인'}]);
                 }

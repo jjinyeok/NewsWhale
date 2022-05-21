@@ -3,6 +3,7 @@ import {
     View, 
     Text, 
     Image, 
+    ActivityIndicator,
 } from 'react-native';
 
 // 화면 비율 맞추기 위한 lib
@@ -19,7 +20,7 @@ export default function LoadingPage() {
                 <Image source={require('../../assets/fly_whale.png')} resizeMode='contain' style={{flex: 1, width: wp(50)}}/>
             </View>
             <View style={{flex: 2}}>
-                <Text style={{fontFamily: 'MapoPeacefull', fontSize: hp(3)}}>로딩중...</Text>
+                <ActivityIndicator size="large" color='blue'/>
             </View>
             <View style={{flex: 3}}></View>
         </View>
