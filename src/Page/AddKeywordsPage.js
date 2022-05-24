@@ -5,8 +5,8 @@ import {
     Text, 
     TextInput, 
     TouchableOpacity, 
-    StyleSheet,
-    Alert
+    StyleSheet, 
+    Alert, 
 } from 'react-native';
 
 // 화면 비율 맞추기 위한 lib
@@ -16,13 +16,20 @@ import {
 } from 'react-native-responsive-screen';
 
 // react-native-icon 받아오기 위한 lib
-import Icon from 'react-native-vector-icons/AntDesign';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 // 로컬 저장소 (userId, token)
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // 추천 키워드 조회하기 (내부 Component)
 import RecommandKeywords from '../Component/RecommandKeywords';
+
+// 마이페이지로 이동했을 시 useIsFocused = true;
+import { useIsFocused } from '@react-navigation/native';
+
+import LoadingPage from './LoadingPage'
+
+import UserTendency from '../Component/UserTendency';
 
 // 통신을 위해 사용하는 axios
 import axios from 'axios';
@@ -38,9 +45,11 @@ export default function AddKeywordsPage({ navigation }) {
 
     const [userId, setUserId] = useState('');
     const [token, setToken] = useState('');
-    const [tokenGet, setTokenGet] = useState(false);
-    const [responseKeywords, setResponseKeywords] = useState('');
-    
+
+    const isFocused = useIsFocused();
+
+    const [recommendKeywords, setRecommendKeywords] = useState({});
+
     const [text, setText] = useState('');
     const goToMainPage = () => {
         navigation.navigate('My')
@@ -53,10 +62,36 @@ export default function AddKeywordsPage({ navigation }) {
         AsyncStorage.getItem('token', (err, result) => {
             setUserId(JSON.parse(result).userId);
             setToken(JSON.parse(result).token);
-            setTokenGet(true);
             //console.log(JSON.parse(result).token);
         });
     }, []);
+
+    const [loading, setLoading] = useState(false)
+    const [userTendency, setUserTendency] = useState({})
+
+    useEffect(() => {
+        setLoading(false);
+        axios.get(`${baseUrl}/user/tendency?userId=${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }).then((response) => {
+            setUserTendency(response.data);
+            axios.get(`${baseUrl}/user/recommendKeyword?userId=${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }).then((response) => {
+                setRecommendKeywords(response.data.recommendKeywords);
+                console.log(response.data.recommendKeywords);
+                setLoading(true);
+            }).catch((e) => {
+                console.log(e)
+            })
+        }).catch((e) => {
+            console.log(e)
+        });
+    }, [isFocused, token]);
 
     const postKeyword = () => {
         if (text.length < 2) {
@@ -87,17 +122,19 @@ export default function AddKeywordsPage({ navigation }) {
     }
 
     return (
+        <View style={{flex: 1}}>
+        {loading ?
         <View style={{ flex: 1}}>
             <View style={{flex: 0.5}}/>
             <View style={{flex: 1, justifyContent: 'center'}}>
                 <View style={{marginLeft: '5%'}}>
                     <TouchableOpacity onPress={goToMainPage}>
-                        <Icon name='doubleleft' size={hp(5)} color='skyblue'/>
+                        <AntDesign name='doubleleft' size={hp(5)} color='skyblue'/>
                     </TouchableOpacity>
                 </View>
             </View>
             {/* <View style={{flex: 9}}> */}
-            <View style={{flex: 0.5}}/>
+            {/* <View style={{flex: 0.5}}/> */}
             <View style={{flex: 1.5, alignItems: 'center', justifyContent: 'center',}}>
                 <TextInput
                     style={{width: wp(80), height: hp(7.5), borderColor: 'black', borderWidth: 1, fontSize: 20, backgroundColor:'white',fontFamily: 'MapoPeacefull', paddingLeft: '5%',}}
@@ -116,18 +153,23 @@ export default function AddKeywordsPage({ navigation }) {
                     </View>
                 </TouchableOpacity>
             </View>
-            <View style={{flex: 4.5}}>
-                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                    {/* <Text style={{fontSize: 16, fontFamily: 'MapoPeacefull'}}>추천 키워드</Text> */}
+            <View style={{flex: 5, alignItems: 'center'}}>
+                <View style={{flex: 0.5, alignItems: 'center', justifyContent: 'center'}}/>
+                <UserTendency userTendency={userTendency}/>
+                <View style={{flex: 0.5, alignItems: 'center', justifyContent: 'center'}}/>
+                <View style={{flex: 0.5, alignItems: 'center', justifyContent: 'center'}}>
+                    <Text style={{fontSize: 16, fontFamily: 'MapoPeacefull'}}>추천 키워드</Text>
                 </View>
-                <View style={{flex: 3}}>
+                <View style={{flex: 2}}>
                     <View style={{alignItems: 'center'}}>
-                        {/* <RecommandKeywords/> */}
+                        <RecommandKeywords recommendKeywords={recommendKeywords}/>
                     </View>
                 </View>
                 <View style={{flex: 1}}/>
             </View>
             <View style={{flex: 1}}/>
+        </View>
+        : <LoadingPage/>}
         </View>
     );
 }
