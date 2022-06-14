@@ -56,7 +56,7 @@ export default function News({navigation, responseData, setLoading}) {
     
     // 키워드와 일치하는 뉴스가 있을 경우, 최대 100개 출력
     else {
-        for(let i = 0; i < count; i++) {
+        for(let i = 0; i < responseData.count; i++) {
             if (i % 4 === 0 && i !== 0) {
                 newsList.push(
                     <View key={301 + i / 5} style={styles.addKeywordContainer}>
@@ -152,10 +152,10 @@ const styles = StyleSheet.create({
     newsContainer: {
         backgroundColor: 'white', 
         width: wp(80), 
-        height: hp(15), 
+        height: hp(12.5), 
         marginLeft: wp(5), 
         marginBottom: hp(2), 
-        borderRadius: 20, 
+        borderRadius: 10, 
         overflow: 'hidden',
         flexDirection: 'row',
     },
@@ -192,10 +192,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'white', 
         width: wp(80), 
-        height: hp(10),
+        height: hp(7),
         marginLeft: wp(5), 
         marginBottom: hp(2),
-        borderRadius: 20, 
+        borderRadius: 10, 
         overflow: 'hidden',
     },
     newsOffAddKeywordButton: {
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     newsOnAddKeywordButton: {
         backgroundColor: 'skyblue', 
         width: wp(70), 
-        height: hp(5), 
+        height: hp(4), 
         overflow: "hidden", 
         borderRadius: 20,
     },

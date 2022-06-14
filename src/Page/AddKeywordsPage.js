@@ -82,8 +82,7 @@ export default function AddKeywordsPage({ navigation }) {
                     Authorization: `Bearer ${token}`,
                 }
             }).then((response) => {
-                setRecommendKeywords(response.data.recommendKeywords);
-                console.log(response.data.recommendKeywords);
+                setRecommendKeywords(response.data);
                 setLoading(true);
             }).catch((e) => {
                 console.log(e)
@@ -139,7 +138,7 @@ export default function AddKeywordsPage({ navigation }) {
                 <TextInput
                     style={{width: wp(80), height: hp(7.5), borderColor: 'black', borderWidth: 1, fontSize: 20, backgroundColor:'white',fontFamily: 'MapoPeacefull', paddingLeft: '5%',}}
                     onChangeText={setText}
-                    value={text}
+                    //value={text}
                     placeholder='검색어를 입력해주세요'
                 />
             </View>
@@ -162,7 +161,7 @@ export default function AddKeywordsPage({ navigation }) {
                 </View>
                 <View style={{flex: 2}}>
                     <View style={{alignItems: 'center'}}>
-                        <RecommandKeywords recommendKeywords={recommendKeywords}/>
+                        <RecommandKeywords navigation={navigation} recommendKeywords={recommendKeywords} userId={userId} token={token}/>
                     </View>
                 </View>
                 <View style={{flex: 1}}/>

@@ -109,10 +109,10 @@ export default function StartPage({navigation}) {
                     <View style={{flex: 1.5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                         
                         {/* 아이디/비밀번호 찾기 */}
-                        <TouchableOpacity style={{alignItems: 'flex-end', justifyContent: 'center', marginRight: '5%'}}>
+                        {/* <TouchableOpacity style={{alignItems: 'flex-end', justifyContent: 'center', marginRight: '5%'}}>
                             <Text style={styles.smallText}>아이디/비밀번호 찾기</Text>
                         </TouchableOpacity>
-                        <Text style={{fontFamily: 'MapoPeacefull', color: 'white'}}>|</Text>
+                        <Text style={{fontFamily: 'MapoPeacefull', color: 'white'}}>|</Text> */}
                         
                         {/* 회원가입 */}
                         <TouchableOpacity style={{alignItems: 'flex-start', justifyContent: 'center', marginLeft: '5%'}} onPress={goToSignUpPage}>
@@ -129,7 +129,7 @@ export default function StartPage({navigation}) {
                     <View style={{flex: 0.5}}/>
                     
                     {/* SNS 로그인 */}
-                    <View style={{flex: 3, justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+                    {/* <View style={{flex: 3, justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
                         <TouchableOpacity style={styles.snsSignUpButton}>
                             <Text style={styles.buttonText}>네이버로 로그인</Text>
                         </TouchableOpacity>
@@ -137,7 +137,8 @@ export default function StartPage({navigation}) {
                             <Text style={styles.buttonText}>카카오로 로그인</Text>
                         </TouchableOpacity>
                         <View style={{flex: 1}}/>
-                    </View>
+                    </View> */}
+                    <View style={{flex: 3}}/>
                 </View>
             </View>
             )}

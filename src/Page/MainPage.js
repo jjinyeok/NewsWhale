@@ -1,11 +1,12 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { 
     View, 
     Text,
     TouchableOpacity, 
     StyleSheet,
     ScrollView,
+    Linking,
 } from 'react-native';
 
 // 화면 비율 맞추기 위한 lib
@@ -34,6 +35,7 @@ import network from '../Static/network';
 const baseUrl = network();
 
 import LoadingPage from './LoadingPage';
+import RecommandArticles from '../Component/RecommandArticles';
 
 // 메인 페이지
 // 키워드와 매칭되는 뉴스 나오기
@@ -81,6 +83,7 @@ export default function MainPage({ navigation }) {
         setLoading(false);
     }
 
+    
     return (
         <View style={{flex: 1, }}>
             {loading ? (
@@ -91,17 +94,21 @@ export default function MainPage({ navigation }) {
                     <View style={{flex: 1, flexDirection: 'row', alignItems: "center",}}>
                         <TouchableOpacity style={styles.iconContainer} onPress={goToMyPage}>
                             <Icon name='home' size={wp(10)} color={'skyblue'}></Icon>
+                            <Text style={{color: '#00CCCC', fontSize: hp(1), fontFamily: 'MapoPeacefull', textAlign: 'center'}}>My Page</Text>
                         </TouchableOpacity>
                     </View>
                     {/* 뉴스 리스트 컴포넌트 */}
-                    <View style={{flex: 9, alignItems: 'center', alignContent: 'center'}}>
-                        <View style={{flex: 0.25, justifyContent: 'flex-end'}}>
-                            <Text style={{fontFamily: 'MapoPeacefull'}}>현재 {count}개의 최신 뉴스가 등록되어 있습니다.</Text>
-                        </View>
-                        <View style={{flex: 9.5}}>
-                        <ScrollView style={styles.newsArea} showsVerticalScrollIndicator={false}>
-                            <News navigation={navigation} responseData={responseData} setLoading={setLoading}/>
-                        </ScrollView>
+                    <View style={{flex: 0.5, alignItems: 'center', justifyContent: 'center'}}>
+                        <RecommandArticles responseData={responseData}/>
+                    </View>
+                    <View style={{flex: 7.5, alignItems: 'center', alignContent: 'center'}}>
+                        {/* <View style={{flex: 0.5, justifyContent: 'center'}}>
+                            <Text style={{fontFamily: 'MapoPeacefull', fontSize: hp(2)}}>현재 {count}개의 최신 뉴스가 등록되어 있습니다.</Text>
+                        </View> */}
+                        <View style={{flex: 1}}>
+                            <ScrollView style={styles.newsArea} showsVerticalScrollIndicator={false}>
+                                <News navigation={navigation} responseData={responseData} setLoading={setLoading}/>
+                            </ScrollView>
                         </View>
                     </View>
                     <View style={{flex: 0.5}}/>
