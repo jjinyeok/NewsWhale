@@ -35,7 +35,7 @@ import UserTendency from '../Component/UserTendency';
 import axios from 'axios';
 
 // 서버 통신 주소
-import network from '../Static/network';
+import network from '../Static/network.js';
 const baseUrl = network();
 
 // 키워드 추가하기 페이지
@@ -139,7 +139,7 @@ export default function AddKeywordsPage({ navigation }) {
                     style={{width: wp(80), height: hp(7.5), borderColor: 'black', borderWidth: 1, fontSize: 20, backgroundColor:'white',fontFamily: 'MapoPeacefull', paddingLeft: '5%',}}
                     onChangeText={setText}
                     //value={text}
-                    placeholder='검색어를 입력해주세요'
+                    placeholder='추가할 키워드를 입력해주세요'
                 />
             </View>
             <View style={{flex: 0.5, alignItems: 'center', justifyContent: 'center',}}>

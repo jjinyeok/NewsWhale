@@ -21,7 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 
 import axios from 'axios';
-import network from '../Static/network';
+import network from '../Static/network.js';
 
 const baseUrl = network();
 

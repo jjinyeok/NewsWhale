@@ -33,7 +33,7 @@ export default function SignUpPage({navigation}) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
-    const [email, setEmail] = useState('');
+    // const [email, setEmail] = useState('');
     const [nickname, setNickname] = useState('');
     const [idCheckSuccess, setIdCheckSuccess] = useState(false);
 
@@ -78,12 +78,12 @@ export default function SignUpPage({navigation}) {
         }
 
         // warn5: 이메일 입력값이 없는 경우
-        else if(email === '') {
-            Alert.alert('경고',
-                '이메일은 필수 항목입니다.',
-                [ {text: '확인'} ]);
-            navigation.navigate('SignUp');
-        }
+        // else if(email === '') {
+        //     Alert.alert('경고',
+        //         '이메일은 필수 항목입니다.',
+        //         [ {text: '확인'} ]);
+        //     navigation.navigate('SignUp');
+        // }
 
         // 정상적 입력값 회원가입
         else {
@@ -92,7 +92,7 @@ export default function SignUpPage({navigation}) {
             await axios.post(`${baseUrl}/auth/signup`, {
                 username: username,
                 password: password,
-                email: email,
+                email: '',
                 nickname: nickname,
             })
             
@@ -153,7 +153,7 @@ export default function SignUpPage({navigation}) {
                 <View style={{flex: 2, alignItems: 'center', justifyContent: 'center'}}>
                     <Text style={styles.introduceText}>안녕하세요!</Text>
                     <Text style={styles.introduceText}>뉴스 구독 어플리케이션</Text> 
-                    <Text style={styles.introduceText}>News Whale입니다.</Text>
+                    <Text style={styles.introduceText}>뉴스웨일입니다.</Text>
                 </View>
                 
                 {/* 아이디 입력란 */}
@@ -202,7 +202,7 @@ export default function SignUpPage({navigation}) {
                 </View>
 
                 {/* 이메일 입력란 */}
-                <View style={{flex: 1}}>
+                {/* <View style={{flex: 1}}>
                     <View style={{flex: 1, justifyContent: 'center'}}>
                         <Text style={styles.text}>이메일*</Text>
                     </View>
@@ -212,7 +212,7 @@ export default function SignUpPage({navigation}) {
                             style={styles.input}
                         />
                     </View>
-                </View>
+                </View> */}
 
                 {/* 닉네임 입력란 */}
                 <View style={{flex: 1}}>

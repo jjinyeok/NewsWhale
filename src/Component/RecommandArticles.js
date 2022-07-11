@@ -15,24 +15,8 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-// react-native-icon 받아오기 위한 lib
-import Icon from 'react-native-vector-icons/Feather';
-
-// 등록한 뉴스 나오기 (내부 Component)
-import News from '../Component/News';
-
-// 로컬 저장소 (userId, token)
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 // 현재 페이지로 이동했을 시 useIsFocused = true;
 import { useIsFocused } from '@react-navigation/native';
-
-// 통신을 위해 사용하는 axios
-import axios from 'axios';
-
-// 서버 통신 주소
-import network from '../Static/network';
-const baseUrl = network();
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -71,12 +55,9 @@ export default function RecommandArticles({responseData}) {
         tmpRecommendArticlesUrl.push(responseData.recommendArticleList[i].articleUrl);
       }
       setRecommendArticles(tmpRecommendArticles)
+      console.log(tmpRecommendArticles)
       setRecommendArticlesUrl(tmpRecommendArticlesUrl)
     }, [isFocused])
-    console.log(recommendArticles)
-    console.log(recommendArticlesUrl)
-    // const testRecommandArticles = ['naver', 'daum', 'zum']
-    // const url = ['https://www.naver.com/', 'https://www.daum.net/', 'https://www.zum.com/']
 
     useInterval(() => {
         setI((i+1) % 3)

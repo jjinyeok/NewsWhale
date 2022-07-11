@@ -107,23 +107,44 @@ export default function News({navigation, responseData, setLoading}) {
                             <View style={{flex: 2, flexDirection: 'row'}}>
                                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
                                     <View style={styles.keywordContainer}>
-                                        <Text style={{fontFamily: 'MapoPeacefull'}}>
-                                            {responseData.articleList[i].keyword1}
-                                        </Text>
+                                        {responseData.articleList[i].keyword1.length > 4 ?
+                                            <Text style={{fontFamily: 'MapoPeacefull', fontSize: hp(1)}}>
+                                                {
+                                                responseData.articleList[i].keyword1}
+                                            </Text> :
+                                            <Text style={{fontFamily: 'MapoPeacefull', fontSize: hp(1.5)}}>
+                                                {
+                                                responseData.articleList[i].keyword1}
+                                            </Text>
+                                        }
                                     </View>
                                 </View>
                                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
                                     <View style={styles.keywordContainer}>
-                                        <Text style={{fontFamily: 'MapoPeacefull'}}>
-                                            {responseData.articleList[i].keyword2}
-                                        </Text>
+                                        {responseData.articleList[i].keyword2.length > 4 ?
+                                            <Text style={{fontFamily: 'MapoPeacefull', fontSize: hp(1)}}>
+                                                {
+                                                responseData.articleList[i].keyword2}
+                                            </Text> :
+                                            <Text style={{fontFamily: 'MapoPeacefull', fontSize: hp(1.5)}}>
+                                                {
+                                                responseData.articleList[i].keyword2}
+                                            </Text>
+                                        }
                                     </View>
                                 </View>
                                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
                                     <View style={styles.keywordContainer}>
-                                        <Text style={{fontFamily: 'MapoPeacefull'}}>
-                                            {responseData.articleList[i].keyword3}
-                                        </Text>
+                                        {responseData.articleList[i].keyword3.length > 4 ?
+                                            <Text style={{fontFamily: 'MapoPeacefull', fontSize: hp(1)}}>
+                                                {
+                                                responseData.articleList[i].keyword3}
+                                            </Text> :
+                                            <Text style={{fontFamily: 'MapoPeacefull', fontSize: hp(1.5)}}>
+                                                {
+                                                responseData.articleList[i].keyword3}
+                                            </Text>
+                                        }
                                     </View>
                                 </View>
                             </View>

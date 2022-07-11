@@ -47,7 +47,7 @@ export default function StartPage({navigation}) {
             username: username,
             password: password,
         }).then((response) => {
-            console.log(response.data.token);
+            console.log(response.data);
             AsyncStorage.setItem('token', 
                 JSON.stringify(response.data)
             );
