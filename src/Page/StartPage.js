@@ -8,6 +8,9 @@ import {
     TextInput,
     Alert,
     Image,
+    Linking, 
+    KeyboardAvoidingView,
+    Keyboard
 } from 'react-native';
 
 // 화면 비율 맞추기 위한 lib
@@ -57,6 +60,14 @@ export default function StartPage({navigation}) {
                 Alert.alert('로그인 실패', '아이디와 비밀번호를 확인해주세요' , [{text: '확인'}]);
             }
         });
+    }
+
+    const privacy_policy = async () => {
+        await Linking.openURL('https://jjinyeok.tistory.com/4');
+    }
+
+    const media_policy = async () => {
+        await Linking.openURL('https://jjinyeok.tistory.com/5');
     }
 
     // 회원가입 페이지 이동
@@ -142,7 +153,20 @@ export default function StartPage({navigation}) {
                 </View>
             </View>
             )}
-            <View style={{flex: 1}}/>
+            <View style={{flex: 1, alignItems: 'center', justifyContent:'center'}}>
+                <Text style={{fontWeight: 'bold'}}>Developer email : fun2314@gmail.com</Text>
+                <View style={{flexDirection: 'row'}}>
+                    <View style={{flex: 0.5}}/>
+                    <TouchableOpacity onPress={privacy_policy} style={{flex: 1}}>
+                        <Text style={{textAlign: 'center', textDecorationLine: 'underline', color: 'darkblue'}}>개인정보처리방침</Text>
+                    </TouchableOpacity>
+                    {/* <View style={{flex: 0.1}}/> */}
+                    <TouchableOpacity onPress={media_policy} style={{flex: 1}}>
+                        <Text style={{textAlign: 'center', textDecorationLine: 'underline', color: 'darkblue'}}>언론사별 URL</Text>
+                    </TouchableOpacity>
+                    <View style={{flex: 0.5}}/>
+                </View>
+            </View>
         </View>
     );
 };
