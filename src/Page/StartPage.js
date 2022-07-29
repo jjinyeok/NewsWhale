@@ -9,8 +9,6 @@ import {
     Alert,
     Image,
     Linking, 
-    KeyboardAvoidingView,
-    Keyboard
 } from 'react-native';
 
 // 화면 비율 맞추기 위한 lib
@@ -31,6 +29,8 @@ import axios from 'axios';
 // 서버 통신 주소
 import network from '../Static/network';
 const baseUrl = network();
+
+import Footer from '../Component/Footer';
 
 // 시작 페이지
 // 로그인
@@ -62,19 +62,11 @@ export default function StartPage({navigation}) {
         });
     }
 
-    const privacy_policy = async () => {
-        await Linking.openURL('https://jjinyeok.tistory.com/4');
-    }
-
-    const media_policy = async () => {
-        await Linking.openURL('https://jjinyeok.tistory.com/5');
-    }
-
     // 회원가입 페이지 이동
     const goToSignUpPage = () => {
         navigation.navigate('SignUp')
     }
-    
+
     // 시작과 동시에 Font를 저장 -> 'MapoPeacefull'
     useEffect(async () => {
         await Font.loadAsync({
@@ -153,19 +145,8 @@ export default function StartPage({navigation}) {
                 </View>
             </View>
             )}
-            <View style={{flex: 1, alignItems: 'center', justifyContent:'center'}}>
-                <Text style={{fontWeight: 'bold'}}>Developer email : fun2314@gmail.com</Text>
-                <View style={{flexDirection: 'row'}}>
-                    <View style={{flex: 0.5}}/>
-                    <TouchableOpacity onPress={privacy_policy} style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', textDecorationLine: 'underline', color: 'darkblue'}}>개인정보처리방침</Text>
-                    </TouchableOpacity>
-                    {/* <View style={{flex: 0.1}}/> */}
-                    <TouchableOpacity onPress={media_policy} style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', textDecorationLine: 'underline', color: 'darkblue'}}>언론사별 URL</Text>
-                    </TouchableOpacity>
-                    <View style={{flex: 0.5}}/>
-                </View>
+            <View style={{flex: 1}}>
+                <Footer navigation={navigation}/>
             </View>
         </View>
     );

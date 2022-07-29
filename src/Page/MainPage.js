@@ -37,6 +37,8 @@ const baseUrl = network();
 import LoadingPage from './LoadingPage';
 import RecommandArticles from '../Component/RecommandArticles';
 
+import Footer from '../Component/Footer';
+
 // 메인 페이지
 // 키워드와 매칭되는 뉴스 나오기
 export default function MainPage({ navigation }) {
@@ -50,14 +52,6 @@ export default function MainPage({ navigation }) {
 
     // 서버로부터 응답 받아오기
     const [responseData, setResponseData] = useState({});
-
-    const privacy_policy = async () => {
-        await Linking.openURL('https://jjinyeok.tistory.com/4');
-    }
-
-    const media_policy = async () => {
-        await Linking.openURL('https://jjinyeok.tistory.com/5');
-    }
 
     // 로컬 저장소로부터 토근 가져오기
     AsyncStorage.getItem('token', (err, result) => {
@@ -119,19 +113,8 @@ export default function MainPage({ navigation }) {
                             </ScrollView>
                         </View>
                     </View>
-                    <View style={{flex: 1, alignItems: 'center', justifyContent:'center'}}>
-                        <Text style={{fontWeight: 'bold'}}>Developer email : fun2314@gmail.com</Text>
-                        <View style={{flexDirection: 'row'}}>
-                            <View style={{flex: 0.5}}/>
-                            <TouchableOpacity onPress={privacy_policy} style={{flex: 1}}>
-                                <Text style={{textAlign: 'center', textDecorationLine: 'underline', color: 'darkblue'}}>개인정보처리방침</Text>
-                            </TouchableOpacity>
-                            {/* <View style={{flex: 0.1}}/> */}
-                            <TouchableOpacity onPress={media_policy} style={{flex: 1}}>
-                                <Text style={{textAlign: 'center', textDecorationLine: 'underline', color: 'darkblue'}}>언론사별 URL</Text>
-                            </TouchableOpacity>
-                            <View style={{flex: 0.5}}/>
-                        </View>
+                    <View style={{flex: 1}}>
+                        <Footer navigation={navigation}/>
                     </View>
                 </View>
                 ) :

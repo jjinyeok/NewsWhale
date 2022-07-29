@@ -35,6 +35,8 @@ import { useIsFocused } from '@react-navigation/native';
 import network from '../Static/network';
 const baseUrl = network();
 
+import Footer from '../Component/Footer';
+
 // 마이페이지
 // 등록한 키워드 조회하기
 // 등록한 키워드 삭제하기
@@ -49,14 +51,6 @@ export default function MyPage({ navigation }) {
     }
     const goToAddKeywordsPage = () => {
         navigation.navigate('AddKeywords');
-    }
-
-    const privacy_policy = async () => {
-        await Linking.openURL('https://jjinyeok.tistory.com/4');
-    }
-
-    const media_policy = async () => {
-        await Linking.openURL('https://jjinyeok.tistory.com/5');
     }
 
     const [loading, setLoading] = useState(false);
@@ -178,19 +172,8 @@ export default function MyPage({ navigation }) {
                 
             </View>
             }
-            <View style={{flex: 0.5, alignItems: 'center', justifyContent:'center'}}>
-                <Text style={{fontWeight: 'bold'}}>Developer email : fun2314@gmail.com</Text>
-                <View style={{flexDirection: 'row'}}>
-                    <View style={{flex: 0.5}}/>
-                    <TouchableOpacity onPress={privacy_policy} style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', textDecorationLine: 'underline', color: 'darkblue'}}>개인정보처리방침</Text>
-                    </TouchableOpacity>
-                    {/* <View style={{flex: 0.1}}/> */}
-                    <TouchableOpacity onPress={media_policy} style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', textDecorationLine: 'underline', color: 'darkblue'}}>언론사별 URL</Text>
-                    </TouchableOpacity>
-                    <View style={{flex: 0.5}}/>
-                </View>
+            <View style={{flex: 1}}>
+                <Footer navigation={navigation}/>
             </View>
         </View>
     );

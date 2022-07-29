@@ -25,6 +25,8 @@ import axios from 'axios';
 import network from '../Static/network';
 const baseUrl = network();
 
+import Footer from '../Component/Footer';
+
 // 회원가입 페이지
 // 1. 회원가입
 // 2. 회원가입 아이디 중복 확인
@@ -36,15 +38,7 @@ export default function SignUpPage({navigation}) {
     // const [email, setEmail] = useState('');
     const [nickname, setNickname] = useState('');
     const [idCheckSuccess, setIdCheckSuccess] = useState(false);
-
-    const privacy_policy = async () => {
-        await Linking.openURL('https://jjinyeok.tistory.com/4');
-    }
-
-    const media_policy = async () => {
-        await Linking.openURL('https://jjinyeok.tistory.com/5');
-    }
-
+    
     // 시작 페이지 이동
     const goToStartPage = () => {
         navigation.navigate('Start');
@@ -247,19 +241,8 @@ export default function SignUpPage({navigation}) {
                 <View style={{flex: 1}}/>
             </View>
             </View>
-            <View style={{flex: 1, alignItems: 'center', justifyContent:'center'}}>
-                <Text style={{fontWeight: 'bold'}}>Developer email : fun2314@gmail.com</Text>
-                <View style={{flexDirection: 'row'}}>
-                    <View style={{flex: 0.5}}/>
-                    <TouchableOpacity onPress={privacy_policy} style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', textDecorationLine: 'underline', color: 'darkblue'}}>개인정보처리방침</Text>
-                    </TouchableOpacity>
-                    {/* <View style={{flex: 0.1}}/> */}
-                    <TouchableOpacity onPress={media_policy} style={{flex: 1}}>
-                        <Text style={{textAlign: 'center', textDecorationLine: 'underline', color: 'darkblue'}}>언론사별 URL</Text>
-                    </TouchableOpacity>
-                    <View style={{flex: 0.5}}/>
-                </View>
+            <View style={{flex: 1}}>
+                <Footer navigation={navigation}/>
             </View>
         </View>
     );

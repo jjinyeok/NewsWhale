@@ -7,6 +7,7 @@ import MainPage from './src/Page/MainPage';
 import MyPage from './src/Page/MyPage';
 import AddKeywordsPage from './src/Page/AddKeywordsPage';
 import SignUpPage from './src/Page/SignUpPage';
+import InformationPage from './src/Page/InformationPage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // ios Remote debugger 방지
@@ -24,7 +25,6 @@ export default function App() {
         setUser({});
       }
       else{
-        //console.log('aaaaa');
         setUser(JSON.parse(result));
       }
     })
@@ -38,6 +38,7 @@ export default function App() {
         <Stack.Screen name="My" component={MyPage}/>
         <Stack.Screen name="AddKeywords" component={AddKeywordsPage}/>
         <Stack.Screen name="SignUp" component={SignUpPage}/>
+        <Stack.Screen name="Information" component={InformationPage}/>
       </Stack.Navigator>
       <StatusBar style="invert" />
     </NavigationContainer> 
