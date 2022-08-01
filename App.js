@@ -8,6 +8,7 @@ import MyPage from './src/Page/MyPage';
 import AddKeywordsPage from './src/Page/AddKeywordsPage';
 import SignUpPage from './src/Page/SignUpPage';
 import InformationPage from './src/Page/InformationPage';
+import PolicyPage from './src/Page/PolicyPage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // ios Remote debugger 방지
@@ -38,6 +39,7 @@ export default function App() {
         <Stack.Screen name="My" component={MyPage}/>
         <Stack.Screen name="AddKeywords" component={AddKeywordsPage}/>
         <Stack.Screen name="SignUp" component={SignUpPage}/>
+        <Stack.Screen name="Policy" component={PolicyPage}/>
         <Stack.Screen name="Information" component={InformationPage}/>
       </Stack.Navigator>
       <StatusBar style="invert" />

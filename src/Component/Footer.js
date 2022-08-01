@@ -22,12 +22,9 @@ import * as Font from 'expo-font';
 
 export default function Footer({navigation}) {
 
-    const privacy_policy = async () => {
-        await Linking.openURL('https://jjinyeok.tistory.com/4');
-    }
-
-    const media_policy = async () => {
-        await Linking.openURL('https://jjinyeok.tistory.com/5');
+    // 정책 페이지 이동
+    const goToPolicyPage = () => {
+        navigation.navigate('Policy')
     }
 
     // 정보 페이지 이동
@@ -38,7 +35,7 @@ export default function Footer({navigation}) {
     return (
     <View style={{flex: 1, alignItems: 'center', justifyContent:'center'}}>
         <Text style={styles.footerLargeTextStyle}>Developer email : fun2314@gmail.com</Text>
-        <TouchableOpacity onPress={privacy_policy}>
+        <TouchableOpacity onPress={goToPolicyPage}>
             <Text style={styles.footerSmallTextStyle}>news whale applicatioin privacy policy</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={goToInformationPage}>

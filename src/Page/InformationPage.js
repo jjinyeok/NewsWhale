@@ -18,14 +18,13 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+import Footer from '../Component/Footer';
+
 import articleUrls from '../Static/articleUrls';
 const a = articleUrls();
 
 export default function InformationPage({navigation}) {
     const articleMedia = [];
-    const media_policy = async () => {
-        await Linking.openURL('https://jjinyeok.tistory.com/5');
-    }
     for(let i = 0; i < 125; i++) {
         articleMedia.push(
             <View key={i} style={{height: hp(3), alignItems: 'center'}}>
@@ -59,11 +58,7 @@ export default function InformationPage({navigation}) {
             </ScrollView>
             </View>
             <View style={{flex: 1}}>
-            <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}} onPress={media_policy}>
-                <View style={{justifyContent: 'center', backgroundColor: 'skyblue', width: wp(80), height: hp(5), overflow: 'hidden', borderRadius: 20,}}>
-                    <Text style={styles.buttonText}>자세히 보기</Text>
-                </View>
-            </TouchableOpacity>
+                <Footer navigation={navigation}/>
             </View>
         </View>
     )
