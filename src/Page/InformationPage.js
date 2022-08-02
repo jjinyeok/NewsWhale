@@ -20,24 +20,29 @@ import {
 
 import Footer from '../Component/Footer';
 
-import articleUrls from '../Static/articleUrls';
-const a = articleUrls();
+import medias from '../Static/media';
+const media = medias();
 
 export default function InformationPage({navigation}) {
     const articleMedia = [];
-    for(let i = 0; i < 125; i++) {
+    for(let i = 0; i < 124; i++) {
         articleMedia.push(
-            <View key={i} style={{height: hp(3), alignItems: 'center'}}>
-                <TouchableOpacity onPress={() => Linking.openURL(a[i].url)} style={{flexDirection: 'row',}}>
-                    <View style={{flex: 0.5}}/>
-                    <View style={{flex: 2.5}}>
-                        <Text style={styles.textStyle}>{a[i].name}</Text>
-                    </View>
-                    <View style={{flex: 6.5}}>
-                        <Text style={styles.textStyle}>{a[i].url}</Text>
-                    </View>
-                    <View style={{flex: 0.5}}/>
+            <View key={i} style={{height: hp(5), alignItems: 'center', flexDirection: 'row'}}>
+                <View style={{flex: 0.5}}/>
+                <View style={{flex: 1.5}}>
+                    <Text style={styles.textStyle}>{media[i].name}</Text>
+                </View>
+                <View style={{flex: 0.5}}/>
+                <View style={{flex: 4.5}}>
+                <TouchableOpacity onPress={() => Linking.openURL(media[i].url)} style={{}}>
+                    <Text style={styles.textStyle}>{media[i].url}</Text>
                 </TouchableOpacity>
+                </View>
+                <View style={{flex: 0.5}}/>
+                <View style={{flex: 3}}>
+                    <Text style={styles.textStyle}>{media[i].number}</Text>
+                </View>
+                <View style={{flex: 0.5}}/>
             </View>
         )
     }

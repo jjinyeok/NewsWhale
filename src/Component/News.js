@@ -14,6 +14,9 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+import medias from '../Static/media';
+const media = medias();
+
 // 키워드와 매칭되는 기사 반환 컴포넌트
 export default function News({navigation, responseData, setLoading}) {
 
@@ -55,8 +58,10 @@ export default function News({navigation, responseData, setLoading}) {
     }
     
     // 키워드와 일치하는 뉴스가 있을 경우, 최대 100개 출력
+
     else {
-        for(let i = 0; i < responseData.count; i++) {
+        let show_count = 300 > responseData.count ? responseData.count : 300
+        for(let i = 0; i < show_count; i++) {
             if (i % 4 === 0 && i !== 0) {
                 newsList.push(
                     <View key={301 + i / 5} style={styles.addKeywordContainer}>
@@ -69,42 +74,65 @@ export default function News({navigation, responseData, setLoading}) {
                     </View>
                 );
             }
-            
+
+            let media_tel = 'TEL ☎ '
+            for(let j = 0; j < 124; j++) {
+                if(media[j].name == responseData.articleList[i].articleMediaName) {
+                    media_tel += media[j].number
+                }
+            }
+
             newsList.push(
                 // 하나의 뉴스 for문으로 뉴스 리스트 생성
                 <View key={i} style={styles.newsContainer}>
                     
                     {/* 언론사 구역 */}
-                    <TouchableOpacity onPress={() => sendMediaByURL(responseData.articleList[i].articleMediaUrl)} style={{flex:3}}>
+                    <TouchableOpacity onPress={() => sendMediaByURL(responseData.articleList[i].articleMediaUrl)} style={{flex:2.5}}>
                         <View style={{flex: 3}}>
                             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                                 <Image 
                                     source={{uri: responseData.articleList[i].articleMediaImageSrc}} 
                                     resizeMode='contain'
-                                    style={{width: wp(22), height: hp(20)}}
+                                    style={{flex: 9, width: '90%'}}
                                 />
+                                <View style={{flex: 1, width: '100%',}}>
+                                    <Text style={{fontFamily: 'MapoPeacefull', color: 'black', fontSize: hp(1), textAlign: 'center'}}>{'>>'} 언론사로 가기</Text>
+                                </View>
                             </View>
                         </View>
                     </TouchableOpacity>
-                    
+                    <View style={{borderRightColor: 'skyblue', borderRightWidth: 1,}}/>
                     {/* 뉴스 구역 (제목, 기자, 키워드1, 키워드2, 키워드3) */}
-                    <TouchableOpacity onPress={() => sendNewsByURL(responseData.articleList[i].articleUrl)} style={{flex:7}}>
+                    <TouchableOpacity onPress={() => sendNewsByURL(responseData.articleList[i].articleUrl)} style={{flex:7.5}}>
                         <View style={{flex: 7,}}>
                             
                             {/* 제목 */}
                             <View style={styles.titleContainer}>
-                                <Text style={{ fontSize: hp(2), fontFamily: 'MapoPeacefull'}}>
+                                {responseData.articleList[i].articleTitle.length > 40 ? 
+                                    <Text style={{ fontSize: hp(1.5), fontFamily: 'MapoPeacefull'}}>
                                     {responseData.articleList[i].articleTitle}
-                                </Text>
+                                    </Text>
+                                    :
+                                    <Text style={{ fontSize: hp(1.75), fontFamily: 'MapoPeacefull'}}>
+                                    {responseData.articleList[i].articleTitle}
+                                    </Text>}
                             </View>
                             
-                            {/* 기자 */}
                             <View style={styles.reporterContainer}>
-                                <Text style={{fontSize: hp(1), fontFamily: 'MapoPeacefull'}}>{responseData.articleList[i].articleReporter}</Text>
+                                <View style={{flex: 1}}>
+                                    <Text style={{fontSize: hp(1), fontFamily: 'MapoPeacefull'}}>{responseData.articleList[i].articleReporter}</Text>
+                                </View>
+                                <View style={{flex: 1}}>
+                                    <Text style={{fontSize: hp(1), fontFamily: 'MapoPeacefull'}}>
+                                        {
+                                            media_tel
+                                        }
+                                    </Text>
+                                </View>
                             </View>
                             
                             {/* 키워드 1, 2, 3 */}
-                            <View style={{flex: 2, flexDirection: 'row'}}>
+                            <View style={{flex: 1.5, flexDirection: 'row'}}>
                                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
                                     <View style={styles.keywordContainer}>
                                         {responseData.articleList[i].keyword1.length > 4 ?
@@ -148,6 +176,10 @@ export default function News({navigation, responseData, setLoading}) {
                                     </View>
                                 </View>
                             </View>
+                            <View style={{flex: 1, width: '100%',}}>
+                                <Text style={{fontFamily: 'MapoPeacefull', color: 'black', fontSize: hp(1), textAlign: 'center'}}>{'>>'} 기사보러 가기</Text>
+                            </View>
+
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -173,7 +205,7 @@ const styles = StyleSheet.create({
     newsContainer: {
         backgroundColor: 'white', 
         width: wp(80), 
-        height: hp(12.5), 
+        height: hp(13), 
         marginLeft: wp(5), 
         marginBottom: hp(2), 
         borderRadius: 10, 
@@ -189,16 +221,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     titleContainer: {
-        flex: 5, 
+        flex: 4.5, 
         justifyContent: 'center', 
         alignItems: 'center',
+        // width: '90%'
     },
     reporterContainer: {
-        flex: 1, 
+        flex: 1.5, 
         alignItems: 'flex-start', 
         justifyContent: 'center', 
         opacity: 0.6, 
         marginLeft: '6%',
+        // flexDirection: 'row'
     },
     keywordContainer: {
         backgroundColor: 'skyblue', 
