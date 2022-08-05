@@ -35,9 +35,9 @@ export default function Footer({navigation}) {
     return (
     <View style={{flex: 1, alignItems: 'center', justifyContent:'center'}}>
         <Text style={styles.footerLargeTextStyle}>Developer email : fun2314@gmail.com</Text>
-        <TouchableOpacity onPress={goToPolicyPage}>
+        {/* <TouchableOpacity onPress={goToPolicyPage}>
             <Text style={styles.footerSmallTextStyle}>news whale applicatioin privacy policy</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity onPress={goToInformationPage}>
             <Text style={styles.footerSmallTextStyle}>ownership information about the news publisher and its contributors</Text>
         </TouchableOpacity>
