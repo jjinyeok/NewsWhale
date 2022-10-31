@@ -24,7 +24,21 @@ import axios from 'axios';
 import network from '../Static/network';
 const baseUrl = network();
 
+// 로컬 저장소 (userId, token, clickKeyword)
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function Keywords({navigation, setLoading, responseKeywords, keywordCount, userId, token, afterDelete, setAfterDelete}) {
+
+    // const [clickKeyword, setClickKeyword] = useState('')
+    // console.log(clickKeyword)
+    // 마이 페이지 이동
+    const goToDetailKeywordPage = async (param_keyword) => {
+        await navigation.navigate("DetailKeyword");
+        console.log({'userId': userId, 'token': token, 'clickKeyword': param_keyword})
+        AsyncStorage.setItem('clickKeyword', 
+            JSON.stringify({'userId': userId, 'token': token, 'clickKeyword': param_keyword})
+        );
+    }
 
     const keywords = [<View style={{height: hp(1.5)}} key={-1}/>];
     if (keywordCount === 0) {
@@ -42,9 +56,11 @@ export default function Keywords({navigation, setLoading, responseKeywords, keyw
                 <View key={i}>
                     <View style={{ flexDirection: 'row', height: hp(5)}}>
                         <View id={i * 2} style={styles.keyword}>
-                            <View style={{width: wp(35) - hp(5)}}>
+                            <TouchableOpacity style={{width: wp(35) - hp(5)}} onPress={() =>{
+                                goToDetailKeywordPage(responseKeywords[i * 2])
+                            }}>
                                 <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>{responseKeywords[i * 2]}</Text>
-                            </View>
+                            </TouchableOpacity>
                             <TouchableOpacity onPress={() => {
                                 setLoading(false);
                                 Alert.alert(
@@ -83,9 +99,11 @@ export default function Keywords({navigation, setLoading, responseKeywords, keyw
                         </View>
                         <View style={{width: wp(10)}} />
                         <View id={i * 2 + 1} style={styles.keyword}>
-                            <View style={{width: wp(35) - hp(5)}}>
+                            <TouchableOpacity style={{width: wp(35) - hp(5)}} onPress={() => {
+                                goToDetailKeywordPage(responseKeywords[i * 2 + 1])
+                            }}>
                                 <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>{responseKeywords[i * 2 + 1]}</Text>
-                            </View>
+                            </TouchableOpacity>
                             <TouchableOpacity onPress={() => {
                                 setLoading(false);
                                 Alert.alert(
@@ -132,9 +150,11 @@ export default function Keywords({navigation, setLoading, responseKeywords, keyw
                 <View key={parseInt(keywordCount / 2)}>
                     <View style={{ flexDirection: 'row', }}>
                         <View id={keywordCount - 1} style={styles.keyword}>
-                            <View style={{width: wp(35) - hp(5)}}>
+                            <TouchableOpacity style={{width: wp(35) - hp(5)}} onPress={()=>{
+                                goToDetailKeywordPage(responseKeywords[keywordCount - 1])
+                            }}>
                                 <Text style={{textAlign: 'center', fontFamily: 'MapoPeacefull'}}>{responseKeywords[keywordCount - 1]}</Text>
-                            </View>
+                            </TouchableOpacity>
                             <TouchableOpacity style={{flex: 1.5}} onPress={() => {
                                 setLoading(false);
                                 Alert.alert(

@@ -46,7 +46,6 @@ export default function MainPage({ navigation }) {
     // 현재 페이지 사용여부 확인
     const isFocused = useIsFocused();
 
-    const [responseKeywords, setResponseKeywords] = useState([]);
 
     // token 받아오기
     const [userId, setUserId] = useState('');
@@ -54,6 +53,7 @@ export default function MainPage({ navigation }) {
 
     // 서버로부터 응답 받아오기
     const [responseData, setResponseData] = useState({});
+    // console.log(responseData)
 
     // 로컬 저장소로부터 토근 가져오기
     AsyncStorage.getItem('token', (err, result) => {
@@ -62,8 +62,6 @@ export default function MainPage({ navigation }) {
     });
 
     const [loading, setLoading] = useState(false);
-
-    console.log(responseKeywords)
 
     // token을 받아오거나, 현재 페이지로 이동했을 때, responseData GET
     // responseData: 1. count (받아온 기사 개수), 2. newsList (받아온 기사 리스트)
@@ -75,16 +73,17 @@ export default function MainPage({ navigation }) {
             }
         }).then((response) => {
             setResponseData(response.data)
-            axios.get(`${baseUrl}/keywords?userId=${userId}`, {
-                headers: {
-                Authorization: `Bearer ${token}`,
-                }
-            }).then((response) => {
-                setResponseKeywords(response.data.keywordName);
-                setLoading(true);
-            }).catch((e) => {
-                console.log(e)
-            });
+            setLoading(true);
+            // axios.get(`${baseUrl}/keywords?userId=${userId}`, {
+            //     headers: {
+            //     Authorization: `Bearer ${token}`,
+            //     }
+            // }).then((response) => {
+            //     setResponseKeywords(response.data.keywordName);
+            //     setLoading(true);
+            // }).catch((e) => {
+            //     console.log(e)
+            // });
             // axios.get(`${baseUrl}/keywords?userId=${userId}`, {
             //     headers: {
             //         Authorization: `Bearer ${token}`,
@@ -134,7 +133,7 @@ export default function MainPage({ navigation }) {
                         </View> */}
                         <View style={{flex: 1}}>
                             <ScrollView style={styles.newsArea} showsVerticalScrollIndicator={false}>
-                                <News navigation={navigation} responseData={responseData} setLoading={setLoading} responseKeywords={responseKeywords} />
+                                <News navigation={navigation} responseData={responseData} setLoading={setLoading} />
                             </ScrollView>
                         </View>
                     </View>

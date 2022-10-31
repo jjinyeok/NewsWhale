@@ -18,7 +18,7 @@ import medias from '../Static/media';
 const media = medias();
 
 // 키워드와 매칭되는 기사 반환 컴포넌트
-export default function News({navigation, responseData, setLoading, responseKeywords}) {
+export default function News({navigation, responseData, setLoading}) {
 
     // 키워드 추가하기 페이지로 이동 함수
     const goToAddKeywordsPage = async () => {
@@ -91,7 +91,7 @@ export default function News({navigation, responseData, setLoading, responseKeyw
                         <View style={{flex: 3}}>
                             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                                 <Image 
-                                    source={{uri: responseData.articleList[i].articleMediaImageSrc}} 
+                                    source={responseData.articleList[i].articleMediaImageSrc? {uri: responseData.articleList[i].articleMediaImageSrc}: null} 
                                     resizeMode='contain'
                                     style={{flex: 9, width: '90%'}}
                                 />
@@ -137,7 +137,7 @@ export default function News({navigation, responseData, setLoading, responseKeyw
                                     <View style={styles.keywordContainer}>
                                         {responseData.articleList[i].keyword1.length > 4 
                                             ?
-                                                responseData.articleList[i].keyword1 in responseKeywords
+                                                responseData.articleList[i].keyword1
                                                 ?
                                                 <Text style={{fontFamily: 'MapoPeacefull', fontSize: hp(1)}}>
                                                     {

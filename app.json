@@ -4,7 +4,7 @@
     "slug": "newswhale",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon_1024.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -20,9 +20,9 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 11,
+      "versionCode": 13,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon_1024.png",
         "backgroundColor": "#FFFFFF"
       },
       "permissions": [
