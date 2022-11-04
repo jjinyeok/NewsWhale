@@ -45,7 +45,7 @@ export default function Keywords({navigation, setLoading, responseKeywords, keyw
         keywords.push(
             <View key={0} style={{flex: 1, height: hp(30 - 1.5), width: wp(100), alignItems: 'center', justifyContent: 'center'}}>
                 <Text style={{fontFamily: 'MapoPeacefull'}}>등록한 키워드가 없습니다! </Text>
-                <Text>새로운 키워드를 등록해주세요!</Text>
+                <Text style={{fontFamily: 'MapoPeacefull'}}>새로운 키워드를 등록해주세요!</Text>
             </View>
         )
     }

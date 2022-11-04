@@ -55,6 +55,9 @@ export default function AddKeywordsPage({ navigation }) {
     const goToMainPage = () => {
         navigation.navigate('My')
     }
+    const goToDetailTendencyPage = () => {
+        navigation.navigate('DetailTendency')
+    }
     const goToMyPage = () => {
         postKeyword();
     }
@@ -155,7 +158,9 @@ export default function AddKeywordsPage({ navigation }) {
             </View>
             <View style={{flex: 5, alignItems: 'center'}}>
                 <View style={{flex: 0.5, alignItems: 'center', justifyContent: 'center'}}/>
-                <UserTendency userTendency={userTendency}/>
+                <TouchableOpacity style={{flex: 1}} onPress={goToDetailTendencyPage}>
+                    <UserTendency userTendency={userTendency}/>
+                </TouchableOpacity>
                 <View style={{flex: 0.5, alignItems: 'center', justifyContent: 'center'}}/>
                 <View style={{flex: 0.5, alignItems: 'center', justifyContent: 'center'}}>
                     <Text style={{fontSize: 16, fontFamily: 'MapoPeacefull'}}>추천 키워드</Text>

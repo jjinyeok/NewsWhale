@@ -119,8 +119,10 @@ export default function News({navigation, responseData, setLoading}) {
                             </View>
                             
                             <View style={styles.reporterContainer}>
-                                <View style={{flex: 1}}>
+                                <View style={{flex: 1, flexDirection: 'row'}}>
                                     <Text style={{fontSize: hp(1), fontFamily: 'MapoPeacefull'}}>{responseData.articleList[i].articleReporter}</Text>
+                                    <Text style={{fontSize: hp(1), fontFamily: 'MapoPeacefull'}}>{'     '}</Text>
+                                    <Text style={{fontSize: hp(1), fontFamily: 'MapoPeacefull'}}>{responseData.articleList[i].articleLastModifiedTime.substring(0, 16)}</Text>
                                 </View>
                                 <View style={{flex: 1}}>
                                     <Text style={{fontSize: hp(1), fontFamily: 'MapoPeacefull'}}>
